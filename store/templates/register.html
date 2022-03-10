@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+{%block title%}
+register page
+{%endblock%}
+
+{%block name_page%}
+Register Page
+{%endblock%}
+
+{%block contant%}
+<body class="text-center" >
+<div class="container">
+    <img src="https://www.leading-point.com/web/image/website/2/logo?unique=4dd3f48">
+    <h2>
+        Please Enter your Information
+    </h2>
+    <br>
+    <form method="post" class="form-register">
+        {{form.hidden_tag()}}
+        {{ form.username.label() }}
+        {{ form.username(class="form-control",placeholder="User Name") }}
+
+        {{ form.email_address.label() }}
+        {{ form.email_address(class="form-control",placeholder="Email Address") }}
+
+        {{ form.password1.label() }}
+        {{ form.password1(class="form-control",placeholder="Password") }}
+
+        {{ form.password2.label() }}
+        {{ form.password2(class="form-control",placeholder="Confirm Password") }}
+        <br>
+        <div class="checkbox mb-3">
+               <h6>Already have an account</h6>
+               <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+            </div>
+
+        {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+
+
+    </form>
+
+</div>
+</body>
+
+{%endblock%}

@@ -1,0 +1,90 @@
+{%extends 'base.html'%}
+
+
+{%block title%}
+Store page
+
+{%endblock%}
+
+{%block name_page%}
+home Page
+{%endblock%}
+
+{%block contant%}
+
+<table class="table table-hover table-striped ">
+    <thead>
+    <tr>
+        <!-- Your Columns HERE -->
+        <th scope="col">ID</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Maker</th>
+        <th scope="col">Color</th>
+        <th scope="col">Year</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Reserved</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Your rows inside the table HERE: -->
+    {%for item in items %}
+
+    <tr>
+        <td>{{item.id}}</td>
+
+        <td><img src={{item.img_url}} class="rounded-circle" width="100" alt="Image description"></td>
+
+
+        <td>{{item.name}}</td>
+        <td>{{item.maker}}</td>
+        <td>{{item.color}}</td>
+        <td>{{item.year}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.price}}$</td>
+        <td>{% if item.reserve == "" %}
+            NO
+            {%else%}
+            Yes
+            {%endif%}
+        </td>
+        <td>
+            {% if item.reserve =="" %}
+            <form method="POST">
+                {{reserve_form.hidden_tag()}}
+                <input id="reserve" name="reserve" type="hidden" value="{{item.name}}">
+                {{reserve_form.submit( class="btn btn-outline-success")}}
+            </form>
+
+            {%elif item.reserve == current_user.username%}
+
+            <a href="/unreserve_car/{{item.name}}" class="btn btn-outline-primary">Unreservd</a>
+<!--            <form method="POST">-->
+<!--                {{unreserve_form.hidden_tag()}}-->
+<!--                <input id="unreserve" name="unreserve" type="hidden" value="{{item.name}}">-->
+
+<!--                {{unreserve_form.submit( class="btn btn-outline-primary")}}-->
+            </form>
+
+            {%else%}
+            <form method="POST">
+                {{reserved_car.hidden_tag()}}
+                <input id="reserved" name="reserved" type="hidden" value="{{item.name}}">
+
+                {{reserved_car.submit(class="btn btn-outline-danger ")}}
+            </form>
+
+
+            {%endif%}
+
+
+        </td>
+    </tr>
+    {%endfor%}
+
+    </tbody>
+</table>
+{% endblock %}
+
+
