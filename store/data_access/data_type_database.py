@@ -1,4 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
 from store.models.user import User
 from store.models.car import Car
 from configparser import ConfigParser
