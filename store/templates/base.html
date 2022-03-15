@@ -17,10 +17,11 @@
     </title>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" >
+<nav class="navbar navbar-expand-md navbar-dark  fixed-top" style="background-color: #29B871;" >
     <a class="navbar-brand" href="#">
+        <img src="static/img/logo.jpeg" class="rounded-circle" width="30" alt="Image description">
         {%block name_page%}
-        Base Page
+        BRJ3LK
         {%endblock%}
     </a>
 
@@ -41,7 +42,7 @@
 
         <form class="form-inline mb-3 my-lg-0 " >
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  >
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-light" type="submit">Search</button>
         </form>
 
         {% if current_user.is_authenticated %}
@@ -72,7 +73,7 @@
 {% if messages %}
 {% for category, message in messages %}
 <div class="alert alert-{{ category }}">
-    <button type="button" class="m1-2 mb-1 close" data-dismiss="alert" aria-label="Close">
+    <button type="button" class="m1-2 mb-1 close " data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
     {{ message }}
