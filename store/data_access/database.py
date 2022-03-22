@@ -1,4 +1,5 @@
-#from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+import pandas as pd
 from store.models.user import User
 from store.models.car import Car
 from configparser import ConfigParser
@@ -15,6 +16,18 @@ conf = config()
 class DataBase:
 
     def __init__(self):
+        self.server=''
+        #self.database=''
+        self.driver=''
+        self.database_con=''
+        #engine=create_engine(self.database_con)
+        #con=engine.connect()
+        #df=dp.read_sql_query("",con)
+
+
+
+
+
         self.database = rf"{conf.get_location_for_database_location()}"
 
     def add_car(self, car):
