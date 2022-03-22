@@ -1,8 +1,8 @@
 from flask import Flask,render_template
 #from flask_sqlalchemy import SQLAlchemy
 
-from store.data_access.adapter import adapter_storage
-from store.data_access.data_type_database import DataBase
+
+from store.data_access.database import DataBase
 from flask_login import LoginManager
 
 
@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] ='7ba926ebd4dfccd59b49e21d'
 
 
 
-db = adapter_storage()
+db = DataBase()
 
 
 
