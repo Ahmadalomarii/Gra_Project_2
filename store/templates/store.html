@@ -13,74 +13,119 @@ home Page
 {%block contant%}
 
 <table class="table table-hover table-striped ">
-    <thead>
-    <tr>
-        <!-- Your Columns HERE -->
-        <th scope="col">ID</th>
-        <th scope="col">Image</th>
-        <th scope="col">Name</th>
-        <th scope="col">Maker</th>
-        <th scope="col">Color</th>
-        <th scope="col">Year</th>
-        <th scope="col">Description</th>
-        <th scope="col">Price</th>
-        <th scope="col">Reserved</th>
-    </tr>
-    </thead>
+
     <tbody>
     <!-- Your rows inside the table HERE: -->
     {%for item in items %}
 
-    <tr>
-        <td>{{item.id}}</td>
+<article class="card card-product">
+	<div class="card-body">
+	<div class="row">
+		<aside class="col-sm-3">
+			<div class="img-wrap"><img src={{item.img_url}}></div>
+		</aside> <!-- col.// -->
+		<article class="col-sm-6">
+				<h4 class="title"> Ut wisi enim ad minim veniam  </h4>
+				<div class="rating-wrap  mb-2">
+					<ul class="rating-stars">
+						<li style="width:80%" class="stars-active">
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</li>
+						<li>
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+							<i class="fa fa-star"></i> <i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+						</li>
+					</ul>
+					<div class="label-rating">132 reviews</div>
+					<div class="label-rating">154 orders </div>
+				</div> <!-- rating-wrap.// -->
+				<p> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Lorem ipsum dolor sit amet, consectetuer adipiscing elit, Ut wisi enim ad minim veniam </p>
+				<dl class="dlist-align">
+				  <dt>Color</dt>
+				  <dd>Black and white</dd>
+				</dl>  <!-- item-property-hor .// -->
+				<dl class="dlist-align">
+				  <dt>Material</dt>
+				  <dd>Syntetic, wooden</dd>
+				</dl>  <!-- item-property-hor .// -->
+				<dl class="dlist-align">
+				  <dt>Delivery</dt>
+				  <dd>Russia, USA, and Europe</dd>
+				</dl>  <!-- item-property-hor .// -->
 
-        <td><img src={{item.img_url}} class="rounded-circle" width="100" alt="Image description"></td>
+		</article> <!-- col.// -->
+		<aside class="col-sm-3 border-left">
+			<div class="action-wrap">
+				<div class="price-wrap h4">
+					<span class="price"> $56 </span>
+					<del class="price-old"> $98</del>
+				</div> <!-- info-price-detail // -->
+				<p class="text-success">Free shipping</p>
+				<br>
+				<p>
+					<a href="#" class="btn btn-primary"> Buy now </a>
+					<a href="#" class="btn btn-secondary"> Details  </a>
+				</p>
+				<a href="#"><i class="fa fa-heart"></i> Add to wishlist</a>
+			</div> <!-- action-wrap.// -->
+		</aside> <!-- col.// -->
+	</div> <!-- row.// -->
+	</div> <!-- card-body .// -->
+</article> <!-- card product .// -->
+
+<!--    <tr>-->
+<!--        <td>{{item.id}}</td>-->
+
+<!--        <td><img src={{item.img_url}} class="rounded-circle" width="100" alt="Image description"></td>-->
 
 
-        <td>{{item.name}}</td>
-        <td>{{item.maker}}</td>
-        <td>{{item.color}}</td>
-        <td>{{item.year}}</td>
-        <td>{{item.description}}</td>
-        <td>{{item.price}}$</td>
-        <td>{% if item.reserve == "" %}
-            NO
-            {%else%}
-            Yes
-            {%endif%}
-        </td>
-        <td>
-            {% if item.reserve =="" %}
-            <form method="POST">
-                {{reserve_form.hidden_tag()}}
-                <input id="reserve" name="reserve" type="hidden" value="{{item.name}}">
-                {{reserve_form.submit( class="btn btn-outline-success")}}
-            </form>
-
-            {%elif item.reserve == current_user.username%}
-
-            <a href="/unreserve_car/{{item.name}}" class="btn btn-outline-primary">Unreservd</a>
+<!--        <td>{{item.name}}</td>-->
+<!--        <td>{{item.maker}}</td>-->
+<!--        <td>{{item.color}}</td>-->
+<!--        <td>{{item.year}}</td>-->
+<!--        <td>{{item.description}}</td>-->
+<!--        <td>{{item.price}}$</td>-->
+<!--        <td>{% if item.reserve == "" %}-->
+<!--            NO-->
+<!--            {%else%}-->
+<!--            Yes-->
+<!--            {%endif%}-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            {% if item.reserve =="" %}-->
 <!--            <form method="POST">-->
-<!--                {{unreserve_form.hidden_tag()}}-->
-<!--                <input id="unreserve" name="unreserve" type="hidden" value="{{item.name}}">-->
+<!--                {{reserve_form.hidden_tag()}}-->
+<!--                <input id="reserve" name="reserve" type="hidden" value="{{item.name}}">-->
+<!--                {{reserve_form.submit( class="btn btn-outline-success")}}-->
+<!--            </form>-->
 
-<!--                {{unreserve_form.submit( class="btn btn-outline-primary")}}-->
-            </form>
+<!--            {%elif item.reserve == current_user.username%}-->
 
-            {%else%}
-            <form method="POST">
-                {{reserved_car.hidden_tag()}}
-                <input id="reserved" name="reserved" type="hidden" value="{{item.name}}">
+<!--            <a href="/unreserve_car/{{item.name}}" class="btn btn-outline-primary">Unreservd</a>-->
+<!--&lt;!&ndash;            <form method="POST">&ndash;&gt;-->
+<!--&lt;!&ndash;                {{unreserve_form.hidden_tag()}}&ndash;&gt;-->
+<!--&lt;!&ndash;                <input id="unreserve" name="unreserve" type="hidden" value="{{item.name}}">&ndash;&gt;-->
 
-                {{reserved_car.submit(class="btn btn-outline-danger ")}}
-            </form>
+<!--&lt;!&ndash;                {{unreserve_form.submit( class="btn btn-outline-primary")}}&ndash;&gt;-->
+<!--            </form>-->
+
+<!--            {%else%}-->
+<!--            <form method="POST">-->
+<!--                {{reserved_car.hidden_tag()}}-->
+<!--                <input id="reserved" name="reserved" type="hidden" value="{{item.name}}">-->
+
+<!--                {{reserved_car.submit(class="btn btn-outline-danger ")}}-->
+<!--            </form>-->
 
 
-            {%endif%}
+<!--            {%endif%}-->
 
 
-        </td>
-    </tr>
+<!--        </td>-->
+<!--    </tr>-->
     {%endfor%}
 
     </tbody>
