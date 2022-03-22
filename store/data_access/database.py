@@ -16,13 +16,13 @@ conf = config()
 class DataBase:
 
     def __init__(self):
-        self.server=''
-        #self.database=''
-        self.driver=''
-        self.database_con=''
-        #engine=create_engine(self.database_con)
-        #con=engine.connect()
-        #df=dp.read_sql_query("",con)
+        self.server='KHALED-PC'
+        self.database='GP_DB'
+        self.driver='ODBC Driver 17 for SQL Server'
+        self.database_con=f'mssql://@{self.server}/{self.database}?driver={self.driver}'
+        engine=create_engine(self.database_con)
+        con=engine.connect()
+        df=pd.read_sql_query("",con)
 
 
 
