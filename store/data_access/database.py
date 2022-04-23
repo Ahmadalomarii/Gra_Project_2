@@ -16,22 +16,14 @@ conf = config()
 class DataBase:
 
     def __init__(self):
-        self.server='KHALED-PC'
-        self.database='GP_DB'
-        self.driver='ODBC Driver 17 for SQL Server'
-        self.database_con=f'mssql://@{self.server}/{self.database}?driver={self.driver}'
-        engine=create_engine(self.database_con)
-        con=engine.connect()
-        df=pd.read_sql_query("",con)
+        pass
 
 
 
-
-
-        self.database = rf"{conf.get_location_for_database_location()}"
 
     def add_car(self, car):
         try:
+
             conn = sqlite3.connect(self.database)
             cur = conn.cursor()
             cur.execute("INSERT INTO car(id,name,price,maker,color,year,description,img_url,reserved) "
@@ -40,6 +32,7 @@ class DataBase:
             cur.fetchall()
             cur.connection.commit()
             conn.close()
+
 
         except Exception as inst:
             print(f"Error in add_car {inst}")

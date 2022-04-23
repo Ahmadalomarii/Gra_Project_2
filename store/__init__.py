@@ -2,19 +2,25 @@ from flask import Flask,render_template
 #from flask_sqlalchemy import SQLAlchemy
 
 
-from store.data_access.database import DataBase
+# from store.data_access.database import DataBase
+
 from flask_login import LoginManager
+from flask_mysqldb import MySQL
 
 
 
 app =Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
 app.config['SECRET_KEY'] ='7ba926ebd4dfccd59b49e21d'
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'store_clothes'
 
 
-
-
-db = DataBase()
+mysql = MySQL(app)
+from store.data_access.sql import DataBaseSQL
+db = DataBaseSQL()
 
 
 

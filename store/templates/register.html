@@ -1,4 +1,7 @@
 {%extends 'base.html'%}
+{%block style%}
+<link href="static/css/login_page.css" rel="stylesheet" type="text/css"/>
+{%endblock%}
 {%block title%}
 register page
 {%endblock%}
@@ -8,36 +11,46 @@ Register Page
 {%endblock%}
 
 {%block contant%}
-<body class="text-center" >
-<div class="container">
-    <img src="https://www.leading-point.com/web/image/website/2/logo?unique=4dd3f48">
-    <h2>
-        Please Enter your Information
-    </h2>
-    <br>
-    <form method="post" class="form-register">
-        {{form.hidden_tag()}}
-        {{ form.username.label() }}
-        {{ form.username(class="form-control",placeholder="User Name") }}
-
-        {{ form.email_address.label() }}
-        {{ form.email_address(class="form-control",placeholder="Email Address") }}
-
-        {{ form.password1.label() }}
-        {{ form.password1(class="form-control",placeholder="Password") }}
-
-        {{ form.password2.label() }}
-        {{ form.password2(class="form-control",placeholder="Confirm Password") }}
+<body class="text-center">
+<div class="container wrapper fadeInDown">
+    <div id="formContent">
+        <h2>
+            REGISTER PAGE
+        </h2>
         <br>
-        <div class="checkbox mb-3">
-               <h6>Already have an account</h6>
-               <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">Login</a>
+        <form method="post" class="form-register">
+            <div class="fadeIn first">
+                <img src="static/img/user.svg" width="150" id="icon" alt="User Icon"/>
+            </div>
+             <h2>
+            Please Enter your Information
+        </h2>
+
+            {{form.hidden_tag()}}
+<br>
+            {{ form.username(class="fadeIn first",placeholder="User Name") }}
+
+
+            {{ form.email_address(class="fadeIn second",placeholder="Email Address") }}
+
+
+            {{ form.password1(class="fadeIn third",placeholder="Password") }}
+
+
+            {{ form.password2(class="fadeIn fourth",placeholder="Confirm Password") }}
+
+            <br><br><br>
+
+            <div class="checkbox mb-3">
+                <h6>Already have an account</h6>
+                <a class="btn  btn-secondary" href="{{ url_for('login_page') }}">Login</a>
             </div>
 
-        {{form.submit(class="btn btn-lg btn-block btn-primary")}}
+            {{form.submit(class="btn fadeIn five")}}
 
 
-    </form>
+        </form>
+    </div>
 
 </div>
 </body>

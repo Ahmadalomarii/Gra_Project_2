@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField ,SubmitField,IntegerField
+from wtforms import StringField, PasswordField ,SubmitField,IntegerField,SelectField,FileField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import Length,EqualTo,Email,DataRequired
 
 
@@ -9,11 +10,29 @@ class RegisterForm(FlaskForm):
     email_address = StringField(label='Email Address:',validators=[Email(),DataRequired()])
     password1 = PasswordField(label='password:', validators=[Length(min=6),DataRequired()])
     password2 = PasswordField(label='Confirm password:',validators=[EqualTo('password1'),DataRequired()])
+
+    submit = SubmitField(label='Create Account ')
+
+class RegisterStoreForm(FlaskForm):
+
+    name = StringField(label='User Name :', validators=[Length(min=2,max=30),DataRequired()])
+    phone = StringField(label='Email Address:',validators=[DataRequired()])
+    image= FileField("image", validators=[ FileRequired(),FileAllowed(['jpg','jpeg','png'])])
+    CITIES= [('1', 'IRBID'), ('2', 'AMMAN'), ('3', 'AJLON')]
+    location = SelectField(u'Hour', choices=CITIES)
+    password1 = PasswordField(label='password:', validators=[Length(min=6),DataRequired()])
+    password2 = PasswordField(label='Confirm password:',validators=[EqualTo('password1'),DataRequired()])
+
     submit = SubmitField(label='Create Account ')
 
 class LoginForm(FlaskForm):
     username = StringField(label='User Name:', validators=[DataRequired()])
-    password = PasswordField(label='Password:', validators=[DataRequired()])
+    password = StringField(label='Password:', validators=[DataRequired()])
+    submit = SubmitField(label='Sign in')
+
+class LoginFormStore(FlaskForm):
+    phone = StringField(label='Phone', validators=[DataRequired()])
+    password = StringField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 
 

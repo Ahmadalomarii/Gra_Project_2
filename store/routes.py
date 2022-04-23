@@ -1,10 +1,10 @@
 from store import app
 from flask import render_template, redirect, url_for, flash, request
-from store.models.user import User
-from store.models.car import Car
+from store.models import User,Store
 
-from store.forms import RegisterForm, LoginForm, AddCarForm, ReserveCar, UnReserveCar,ReservedCar
-from store import db
+
+from store.forms import RegisterForm,RegisterStoreForm, LoginForm,LoginFormStore, AddCarForm, ReserveCar, UnReserveCar,ReservedCar
+
 from flask_login import login_user, logout_user, login_required, current_user
 
 from store import login_manager
@@ -81,10 +81,9 @@ def unreserve(name_of_car):
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(id = -1,username=form.username.data,
-                              email_address=form.email_address.data,
-                              password=form.password1.data,
-                              type_user="User")
+        user_to_create = User(id=88,name=form.username.data,
+                              email=form.email_address.data,
+                              password=form.password1.data,)
         db.add_user(user_to_create)
         return redirect(url_for('store_page'))
     if form.errors != {}:
@@ -93,15 +92,35 @@ def register_page():
 
     return render_template('register.html', form=form)
 
+@app.route('/register_store', methods=['GET', 'POST'])
+def register_store_page():
+    form = RegisterStoreForm()
+    if form.validate_on_submit():
+        print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data.filename)}")
+        store_to_create = Store(id=88,name=form.name.data,
+                              phone=form.phone.data,
+                                rating=1,
+                                rating_count=0,
+                                location=form.location.data,
+                              password=form.password1.data,
+                                image=form.image.data)
+        db.add_store(store_to_create)
+        return redirect(url_for('store_page'))
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a store: {err_msg}', category='danger')
+
+    return render_template('register_store.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     form = LoginForm()
     if form.validate_on_submit():
-        result_of_login_user = db.log_in("User", username=form.username.data, password=form.password.data)
+        result_of_login_user = db.log_in("user", email=form.username.data, password=form.password.data)
 
         if result_of_login_user:
-            login_user(db.get_user_by_name(form.username.data))
+            login_user(db.get_user_by_email(form.username.data))
             flash(f'Success! You are logged in as :{form.username.data}', category='Success')
             return redirect(url_for('store_page'))
         else:
@@ -117,18 +136,18 @@ def logout_page():
     return redirect(url_for("home_page"))
 
 
-@app.route('/admin_login', methods=['GET', 'POST'])
-def Login_Admin():
-    form = LoginForm()
+@app.route('/store_login', methods=['GET', 'POST'])
+def login_store():
+    form = LoginFormStore()
     if form.validate_on_submit():
-        result_of_login_admin = db.log_in("Admin", username=form.username.data, password=form.password.data)
-        if result_of_login_admin:
-            flash(f'Success! You are logged in as :{form.username.data}', category='Success')
-            return redirect(url_for('admin_page'))
+        result_of_login_store = db.log_in("store", email=form.phone.data, password=form.password.data)
+        if result_of_login_store:
+            flash(f'Success! You are logged in as :{result_of_login_store}', category='Success')
+            return redirect(url_for('store_page'))
         else:
-            flash('Username and password are not match! Please try again', category='danager')
+            flash('phone and password are not match! Please try again', category='danager')
 
-    return render_template('admin_login.html', form=form)
+    return render_template('store_login.html', form=form)
 
 
 @app.route('/admin_page', methods=['GET', 'POST'])
@@ -150,4 +169,4 @@ def admin_page():
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
 
-    return render_template('admin_page.html', form=form)
+    return render_template('store_page.html', form=form)

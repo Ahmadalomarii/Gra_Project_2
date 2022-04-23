@@ -1,13 +1,10 @@
-{%extends 'base.html'%}
-{%block style%}
-<link href="static/css/login_page.css" rel="stylesheet" type="text/css"/>
-{%endblock%}
+{%extends 'login.html'%}
 {%block title%}
-Login page
+Login Admin page
 {%endblock%}
 
 {%block name_page%}
-Login Page
+Login Admin Page
 {%endblock%}
 
 {%block contant%}
@@ -15,21 +12,19 @@ Login Page
 <div class="container wrapper fadeInDown">
     <div id="formContent">
         <h2>
-        LOG IN PAGE
+        LOG IN STORE PAGE
     </h2>
         <br>
         <form method="POST" class="form-signin">
             {{ form.hidden_tag() }}
-            <!--            <img class="mb-4" src="https://www.leading-point.com/web/image/website/2/logo?unique=4dd3f48">-->
             <div class="fadeIn first">
                 <img src="static/img/user.svg" width="150" id="icon" alt="User Icon"/>
             </div>
             <br><br>
-            <!--        {{ form.username.label() }}-->
-            {{ form.username(class="fadeIn second ", placeholder="User Name",
+
+            {{ form.phone(class="fadeIn second ", placeholder="Phone",
             width="10") }}
             <br><br>
-            <!--        {{ form.password.label() }}-->
 
             {{ form.password(class="fadeIn third", placeholder="Password",type="password") }}
 
@@ -38,7 +33,7 @@ Login Page
 
             <div class="checkbox mb-3">
                 <h6 class="text-muted">Do not have an account?</h6>
-                <a class="btn  btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+                <a class="btn  btn-secondary" href="{{ url_for('register_store_page') }}">Register</a>
             </div>
 
             {{ form.submit(class="btn fadeIn fourth") }}
