@@ -1,9 +1,9 @@
 from store import app
 from flask import render_template, redirect, url_for, flash, request
-from store.models import User,Store
+from store.models import User, Store
 
-
-from store.forms import RegisterForm,RegisterStoreForm, LoginForm,LoginFormStore, AddCarForm, ReserveCar, UnReserveCar,ReservedCar
+from store.forms import RegisterForm, RegisterStoreForm, LoginForm, LoginFormStore, AddCarForm, ReserveCar, \
+    UnReserveCar, ReservedCar
 
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -27,7 +27,7 @@ def home_page():
 def store_page():
     reserve_form = ReserveCar()
     unreserve_form = UnReserveCar()
-    reserved_car =ReservedCar()
+    reserved_car = ReservedCar()
 
     if request.method == "POST":
         if reserve_form.validate_on_submit():
@@ -44,9 +44,6 @@ def store_page():
                     flash(f'Fail! This Car Is Reserved ', category='danger')
                     return redirect(url_for('store_page'))
 
-
-
-
         # if unreserve_form.validate_on_submit():
         #     name_of_car = request.form.get('unreserve')
         #     car_object2 = db.get_car_by_name(name_of_car=name_of_car)
@@ -56,17 +53,18 @@ def store_page():
         #
         #             return redirect(url_for('store_page'))
 
-        if reserved_car.validate_on_submit() :
+        if reserved_car.validate_on_submit():
             name_of_car = request.form.get('reserved')
             car_object3 = db.get_car_by_name(name_of_car=name_of_car)
             if car_object3:
-                if car_object3.reserve !="" and car_object3.reserve !=current_user.username:
+                if car_object3.reserve != "" and car_object3.reserve != current_user.username:
                     flash(f'Fail! This Car Is Reserved ', category='danger')
                     return redirect(url_for('store_page'))
 
-
     cars = db.get_all_car()
-    return render_template('store.html', items=cars, reserve_form=reserve_form, unreserve_form=unreserve_form, reserved_car=reserved_car)
+    return render_template('store.html', items=cars, reserve_form=reserve_form, unreserve_form=unreserve_form,
+                           reserved_car=reserved_car)
+
 
 @app.route('/unreserve_car/<string:name_of_car>')
 def unreserve(name_of_car):
@@ -81,9 +79,9 @@ def unreserve(name_of_car):
 def register_page():
     form = RegisterForm()
     if form.validate_on_submit():
-        user_to_create = User(id=88,name=form.username.data,
+        user_to_create = User(id=88, name=form.username.data,
                               email=form.email_address.data,
-                              password=form.password1.data,)
+                              password=form.password1.data, )
         db.add_user(user_to_create)
         return redirect(url_for('store_page'))
     if form.errors != {}:
@@ -92,23 +90,26 @@ def register_page():
 
     return render_template('register.html', form=form)
 
+
 @app.route('/register_store', methods=['GET', 'POST'])
 def register_store_page():
     form = RegisterStoreForm()
-    if form.validate_on_submit():
-        print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data.filename)}")
-        store_to_create = Store(id=88,name=form.name.data,
-                              phone=form.phone.data,
+
+    if request.method == "POST":
+        if form.validate_on_submit():
+            print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data)}")
+            store_to_create = Store(id=88, name=form.name.data,
+                                phone=form.phone.data,
                                 rating=1,
                                 rating_count=0,
                                 location=form.location.data,
-                              password=form.password1.data,
+                                password=form.password1.data,
                                 image=form.image.data)
-        db.add_store(store_to_create)
-        return redirect(url_for('store_page'))
-    if form.errors != {}:
-        for err_msg in form.errors.values():
-            flash(f'There was an error with creating a store: {err_msg}', category='danger')
+            db.add_store(store_to_create)
+        return redirect(url_for('store_login'))
+        if form.errors != {}:
+            for err_msg in form.errors.values():
+                flash(f'There was an error with creating a store: {err_msg}', category='danger')
 
     return render_template('register_store.html', form=form)
 
@@ -143,11 +144,21 @@ def login_store():
         result_of_login_store = db.log_in("store", email=form.phone.data, password=form.password.data)
         if result_of_login_store:
             flash(f'Success! You are logged in as :{result_of_login_store}', category='Success')
-            return redirect(url_for('store_page'))
+
+            return redirect(url_for("store_base"))
         else:
             flash('phone and password are not match! Please try again', category='danager')
 
     return render_template('store_login.html', form=form)
+
+@app.route('/store_base', methods=['GET', 'POST'])
+def store_base():
+
+    if True:
+        return render_template('store_base.html')
+    else:
+        flash('phone and password are not match! Please try again', category='danager')
+    return redirect(url_for('store_login'))
 
 
 @app.route('/admin_page', methods=['GET', 'POST'])
@@ -155,7 +166,7 @@ def admin_page():
     form = AddCarForm()
     if form.validate_on_submit():
         car_to_create = Car(id=-1
-                            ,name=form.name.data,
+                            , name=form.name.data,
                             price=form.price.data,
                             maker=form.maker.data,
                             color=form.color.data,

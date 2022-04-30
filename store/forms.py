@@ -17,7 +17,7 @@ class RegisterStoreForm(FlaskForm):
 
     name = StringField(label='User Name :', validators=[Length(min=2,max=30),DataRequired()])
     phone = StringField(label='Email Address:',validators=[DataRequired()])
-    image= FileField("image", validators=[ FileRequired(),FileAllowed(['jpg','jpeg','png'])])
+    image= FileField("image", validators=[FileRequired(),FileAllowed(['jpg','jpeg','png'])])
     CITIES= [('1', 'IRBID'), ('2', 'AMMAN'), ('3', 'AJLON')]
     location = SelectField(u'Hour', choices=CITIES)
     password1 = PasswordField(label='password:', validators=[Length(min=6),DataRequired()])

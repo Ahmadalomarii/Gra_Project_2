@@ -78,7 +78,7 @@
             </li>
         </ul>
     </div>
-
+ {%block name_of_user%}
 
     {% if current_user.is_authenticated %}
     <ul class="navbar-nav">
@@ -98,6 +98,7 @@
 
     </ul>
     {% endif %}
+    {%endblock%}
     </div>
 </nav>
 
