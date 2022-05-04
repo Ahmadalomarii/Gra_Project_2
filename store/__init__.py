@@ -7,7 +7,7 @@ from flask import Flask,render_template
 from flask_login import LoginManager
 from flask_mysqldb import MySQL
 
-
+UPLOAD_FOLDER = 'C:/Users/AHMAD/Desktop/Task_4/store/static/uploads'
 
 app =Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
@@ -16,6 +16,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'store_clothes'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 mysql = MySQL(app)

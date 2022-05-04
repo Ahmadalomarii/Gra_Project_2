@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+
+{%block style%}
+<link href="static/css/store_base.css" rel="stylesheet" type="text/css"/>
+{%endblock%}
+
+{%block title%}
+Store page
+{%endblock%}
+
+{%block name_page%}
+Store page
+{%endblock%}
+
+{%block name_of_user%}
+<h6>Welcome,{{store.name}}</h6>
+{%endblock%}
+
+{%block contant%}
+<body class="text-center">
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<nav class="list-group">
+			<a class="list-group-item " href="{{ url_for('store_overview')}}"> Account overview </a>
+
+
+			<a class="list-group-item" href="page-profile-orders.html"> Add New Clothes </a>
+			<a class="list-group-item" href="page-profile-wishlist.html"> Delete Clothes </a>
+			<a class="list-group-item" href="page-profile-seller.html"> Update Clothes </a>
+			<a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
+			<a class="list-group-item" href="page-index-1.html"> Settings </a>
+		</nav>
+	</aside> <!-- col.// -->
+<h1>Base Store</h1>
+
+	</main> <!-- col.// -->
+</div>
+
+</div> <!-- container .//  -->
+</section>
+
+</body>
+{% endblock %}

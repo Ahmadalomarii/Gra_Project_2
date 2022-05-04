@@ -9,6 +9,9 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from store import login_manager
 from store import db
+import os
+from werkzeug.utils import secure_filename
+import uuid
 
 
 @login_manager.user_loader
@@ -97,16 +100,18 @@ def register_store_page():
 
     if request.method == "POST":
         if form.validate_on_submit():
-            print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data)}")
+            # print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data)}")
+            filename = secure_filename(str(uuid.uuid1())+form.image.data.filename)
+            form.image.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             store_to_create = Store(id=88, name=form.name.data,
                                 phone=form.phone.data,
                                 rating=1,
                                 rating_count=0,
                                 location=form.location.data,
                                 password=form.password1.data,
-                                image=form.image.data)
+                                image=filename)
             db.add_store(store_to_create)
-        return redirect(url_for('store_login'))
+        return redirect(url_for('login_store'))
         if form.errors != {}:
             for err_msg in form.errors.values():
                 flash(f'There was an error with creating a store: {err_msg}', category='danger')
@@ -136,15 +141,16 @@ def logout_page():
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
 
-
+store_obj=None
 @app.route('/store_login', methods=['GET', 'POST'])
 def login_store():
     form = LoginFormStore()
     if form.validate_on_submit():
         result_of_login_store = db.log_in("store", email=form.phone.data, password=form.password.data)
         if result_of_login_store:
-            flash(f'Success! You are logged in as :{result_of_login_store}', category='Success')
-
+            flash(f'Success! You are logged in as :{result_of_login_store.name}', category='Success')
+            global store_obj
+            store_obj=result_of_login_store
             return redirect(url_for("store_base"))
         else:
             flash('phone and password are not match! Please try again', category='danager')
@@ -153,12 +159,20 @@ def login_store():
 
 @app.route('/store_base', methods=['GET', 'POST'])
 def store_base():
-
-    if True:
-        return render_template('store_base.html')
+    global store_obj
+    if store_obj:
+        return render_template('store_base.html', store=store_obj)
     else:
-        flash('phone and password are not match! Please try again', category='danager')
-    return redirect(url_for('store_login'))
+        return redirect(url_for("login_store"))
+
+@app.route('/store_overview', methods=['GET', 'POST'])
+def store_overview():
+    global store_obj
+    if store_obj:
+       return render_template('store_overview.html',store_info=store_obj)
+    else:
+        flash('404-(rou)176', category='danager')
+    return redirect(url_for('store_base', store=store_obj))
 
 
 @app.route('/admin_page', methods=['GET', 'POST'])

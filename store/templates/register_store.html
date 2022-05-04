@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{%block style%}
+<link href="static/css/login_page.css" rel="stylesheet" type="text/css"/>
+{%endblock%}
+{%block title%}
+register Store page
+{%endblock%}
+
+{%block name_page%}
+Register Store Page
+{%endblock%}
+
+{%block contant%}
+<body class="text-center">
+<div class="container wrapper fadeInDown">
+    <div id="formContent">
+        <h2>
+            REGISTER STORE PAGE
+        </h2>
+        <br>
+        <form method="post" class="form-register" enctype="multipart/form-data">
+            <div class="fadeIn first">
+                <img src="static/img/user.svg" width="150" id="icon" alt="User Icon"/>
+            </div>
+            <h2>
+                Please Enter your Information
+            </h2>
+
+            {{form.hidden_tag()}}
+
+            <br>
+            {{ form.name(class="fadeIn first",placeholder="User Name") }}<br>
+
+
+            {{ form.phone(class="fadeIn second",placeholder="Phone") }}<br>
+
+
+            {{ form.password1(class="fadeIn third",placeholder="Password") }}<br>
+
+            {{ form.password2(class="fadeIn four",placeholder="Confirm Password") }}<br>
+            {{ form.location(class="fadeIn five ",placeholder="Location",type="select") }}
+
+            <h2 style="text-align: center;">LOGO</h2>
+
+                {{ form.image(class="fadeIn five") }}
+
+
+
+            <br>
+
+
+            <br><br><br>
+
+            <div class="checkbox mb-3">
+                <h6>Already have an account</h6>
+                <a class="btn  btn-secondary" href="{{ url_for('login_store') }}">Login Store</a>
+            </div>
+
+            {{form.submit(class="btn fadeIn five")}}
+
+
+        </form>
+    </div>
+
+</div>
+</body>
+
+{%endblock%}
