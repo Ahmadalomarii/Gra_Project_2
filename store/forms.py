@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField ,SubmitField,IntegerField,SelectField,FileField
+from wtforms import StringField, PasswordField ,SubmitField,IntegerField,SelectField,FileField,RadioField,FloatField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import Length,EqualTo,Email,DataRequired
 
@@ -19,7 +19,7 @@ class RegisterStoreForm(FlaskForm):
     phone = StringField(label='Email Address:',validators=[DataRequired()])
     image= FileField("image", validators=[FileRequired(),FileAllowed(['jpg','jpeg','png'])])
     CITIES= [('1', 'IRBID'), ('2', 'AMMAN'), ('3', 'AJLON')]
-    location = SelectField(u'Hour', choices=CITIES)
+    location = SelectField(u'Location', choices=CITIES)
     password1 = PasswordField(label='password:', validators=[Length(min=6),DataRequired()])
     password2 = PasswordField(label='Confirm password:',validators=[EqualTo('password1'),DataRequired()])
 
@@ -46,6 +46,19 @@ class AddCarForm(FlaskForm):
     description = StringField(label="Maker : ",validators=[Length(min=2,max=1024),DataRequired()])
     submit = SubmitField(label='Add New Car')
 
+class ClothesForm(FlaskForm):
+    name = StringField(label="Name : ",validators=[Length(min=2,max=30),DataRequired()])
+    SIZES = [('1', 'XXS'), ('2', 'XS'), ('3', 'S'), ('4', 'M'), ('5', 'L'), ('6', 'XL'), ('7', 'XXL')]
+    size=SelectField(label="Size :", choices=SIZES)
+    color=StringField(label="Color : ",validators=[Length(min=2,max=15)])
+    description=StringField(label="Description : ",validators=[Length(min=2,max=100)])
+    price=FloatField(label="Price")
+    image = FileField("image", validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png'])])
+    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('7', 'Womens Drees ')]
+    type=SelectField(label="Type :", choices=TYPES)
+    GENDER= [('1', "Men's  "), ('2', "Women's"), ('3', 'Children-Male'), ('4', 'Children-Female  ')]
+    gender=RadioField(label="Gender", choices=GENDER)
+    submit = SubmitField(label='Add New Clothes')
 class ReserveCar(FlaskForm):
     submit = SubmitField(label='Reserve Car')
 

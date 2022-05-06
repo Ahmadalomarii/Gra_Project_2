@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, request
 from store.models import User, Store
 
 from store.forms import RegisterForm, RegisterStoreForm, LoginForm, LoginFormStore, AddCarForm, ReserveCar, \
-    UnReserveCar, ReservedCar
+    UnReserveCar, ReservedCar,ClothesForm
 
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -173,6 +173,24 @@ def store_overview():
     else:
         flash('404-(rou)176', category='danager')
     return redirect(url_for('store_base', store=store_obj))
+
+
+@app.route('/store_new_clothes', methods=['GET', 'POST'])
+def store_new_clothes():
+    global store_obj
+    if store_obj:
+        form=ClothesForm()
+        if request.method == "POST":
+            if form.validate_on_submit():
+                pass
+
+
+
+    else:
+        flash('404-(rou)184', category='danager')
+        return redirect(url_for('store_base', store=store_obj))
+
+    return render_template('store_new_clothes.html', store_info=store_obj, form=form)
 
 
 @app.route('/admin_page', methods=['GET', 'POST'])

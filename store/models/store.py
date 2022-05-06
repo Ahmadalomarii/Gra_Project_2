@@ -21,4 +21,11 @@ class Store:
         print(f"///////////{type(image)}  {type(self.image)} {image} {type(image)}")
 
         self.location=location
+        if location==1:
+            self.location="IRBID"
+        elif location==2:
+            self.location="AMMAN"
+        elif location==3:
+            self.location="AJLON"
+
         self.password = password
