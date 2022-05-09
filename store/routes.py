@@ -1,6 +1,6 @@
 from store import app
 from flask import render_template, redirect, url_for, flash, request
-from store.models import User, Store
+from store.models import User, Store ,Clothes
 
 from store.forms import RegisterForm, RegisterStoreForm, LoginForm, LoginFormStore, AddCarForm, ReserveCar, \
     UnReserveCar, ReservedCar,ClothesForm
@@ -182,16 +182,28 @@ def store_new_clothes():
         form=ClothesForm()
         if request.method == "POST":
             if form.validate_on_submit():
-                pass
-
-
-
+                filename = secure_filename(str(uuid.uuid1()) + form.image.data.filename)
+                form.image.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                new_clothes = Clothes(id=88,name=form.name.data,size=form.size.data,color=form.color.data,
+                                      order_count=0,description=form.description.data,rating=1,rating_count=0,
+                                      price=form.price.data,image=filename,store_id=store_obj.id,type=form.type.data,
+                                      gender=form.gender.data)
+                db.add_clothes(new_clothes)
+                flash(f'Success! You are Add Clothes {new_clothes.name}', category='Success')
     else:
-        flash('404-(rou)184', category='danager')
+        flash('404-(rou)197', category='danager')
         return redirect(url_for('store_base', store=store_obj))
 
     return render_template('store_new_clothes.html', store_info=store_obj, form=form)
 
+@app.route('/store_edit_clothes', methods=['GET', 'POST'])
+def store_edit_clothes():
+    global store_obj
+    clothes=None
+    if store_obj:
+        clothes=db.get_all_clothes()
+
+    return render_template('store_edit_clothes.html', store_info=store_obj,clothes=clothes)
 
 @app.route('/admin_page', methods=['GET', 'POST'])
 def admin_page():
