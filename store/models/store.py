@@ -18,14 +18,25 @@ class Store:
         self.rating_count = rating_count
 
         self.image =image
-        print(f"///////////{type(image)}  {type(self.image)} {image} {type(image)}")
 
-        self.location=location
-        if location==1:
-            self.location="IRBID"
-        elif location==2:
-            self.location="AMMAN"
-        elif location==3:
-            self.location="AJLON"
+
+        self.location=self.set_location(location)
+
 
         self.password = password
+
+    def set_location(self, location):
+        try:
+            location = int(location)
+            if location == 1:
+                return "IRBID"
+            elif location == 2:
+                return "AMMAN"
+            elif location == 3:
+                return "ALJLON"
+            else:
+                print("error in class Store Line 43 in set_location")
+                return "ERROR"
+        except Exception as a:
+            print(f"error in class Store Line 43 in set_location {a}")
+            return location

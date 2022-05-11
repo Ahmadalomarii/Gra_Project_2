@@ -54,351 +54,67 @@ BRJ3LK
 </div>
 
 <div class="card card-home-category">
-<div class="row no-gutters">
-	<div class="col-md-3">
+    <div class="row no-gutters">
+        <div class="col-md-3">
 
-	<div class="home-category-banner bg-light-orange">
-		<h5 class="title">Best trending clothes only for summer</h5>
-		<p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-		<a href="#" class="btn btn-outline-primary rounded-pill">Source now</a>
-		<img src="images/items/2.jpg" class="img-bg">
-	</div>
+            <div class="home-category-banner bg-light-orange">
+                <h5 class="title">Best trending clothes only for summer</h5>
+                <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                <a href="#" class="btn btn-outline-primary rounded-pill">Source now</a>
+                <img src="images/items/2.jpg" class="img-bg">
+            </div>
 
-	</div> <!-- col.// -->
-	<div class="col-md-9">
-<ul class="row no-gutters bordered-cols">
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Well made women clothes with trending collection  </h6>
-		<img class="img-sm float-right" src="images/items/1.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Guanjou, China</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Great clothes with trending collection  </h6>
-		<img class="img-sm float-right" src="images/items/2.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Beijing, China</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Demo clothes with sample collection  </h6>
-		<img class="img-sm float-right" src="images/items/3.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Tokyo, Japan</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Home and kitchen electronic  stuff collection  </h6>
-		<img class="img-sm float-right" src="images/items/4.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Tashkent, Uzb</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Home and kitchen electronic  stuff collection  </h6>
-		<img class="img-sm float-right" src="images/items/5.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> London, Britain</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Home and kitchen electronic  stuff collection  </h6>
-		<img class="img-sm float-right" src="images/items/6.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Guanjou, China</p>
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Well made clothes with trending collection </h6>
-		<img class="img-sm float-right" src="images/items/7.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Hong Kong, China</p>
+        </div> <!-- col.// -->
+        <div class="col-md-9">
+            <ul class="row no-gutters bordered-cols">
+                {%for cloth in clothes_top_8_rating %}
+                <li class="col-6 col-lg-3 col-md-4">
+                    <a href="{{url_for('clothes_inf_page',id_clothes=cloth.id)}}" class="item">
+                        <div class="card-body">
+                            <h5 class="title">{{cloth.name}} </h5>
+                            <img class="img-sm float-right" src="static/uploads/{{cloth.image}}">
+                            <h class="text-muted"> {{cloth.description}}</h><br>
+                            <h class="text-strong" style="color:#343a40; font-size: 15px;"> {{cloth.type}}</h>
+                            <p class="text-strong" style="color:#343a40; font-size: 18px;"> {{cloth.price}}$</p>
+                        </div>
+                    </a>
+                </li>
+                {%endfor%}
 
-	</div>
-</a>
-	</li>
-	<li class="col-6 col-lg-3 col-md-4">
-<a href="#" class="item">
-	<div class="card-body">
-		<h6 class="title">Home and kitchen interior  stuff collection   </h6>
-		<img class="img-sm float-right" src="images/items/6.jpg">
-		<p class="text-muted"><i class="fa fa-map-marker-alt"></i> Guanjou, China</p>
-	</div>
-</a>
-	</li>
-</ul>
-	</div> <!-- col.// -->
-</div> <!-- row.// -->
+            </ul>
+        </div> <!-- col.// -->
+    </div> <!-- row.// -->
 </div>
 <section class="padding-bottom">
-<header class="section-heading mb-4">
-	<h3 class="title-section">Recommended items</h3>
-</header>
+    <header class="section-heading mb-4">
+        <h3 class="title-section">Recommended items with Low Price</h3>
+    </header>
 
-<div class="row">
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Men's T-shirt for summer</a>
-				</div>
-				<div class="price h5 mt-2">$99</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/2.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Winter Jacket for Men, All sizes</a>
-				</div>
-				<div class="price h5 mt-2">$19</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/3.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Jeans Shorts for Boys Small size</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/4.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Jeans Shorts for Boys Small size</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/5.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Luxury</a>
-                	<a href="#" class="title">Leather Wallet Brown Style</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/6.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Interior</a>
-                	<a href="#" class="title">Sofa for Minimalist Interior</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/7.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Amazing item name comes here</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/8.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Great product name is here</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Men's T-shirt for summer</a>
-				</div>
-				<div class="price h5 mt-2">$99</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/2.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Winter Jacket for Men, All sizes</a>
-				</div>
-				<div class="price h5 mt-2">$19</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/3.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Jeans Shorts for Boys Small size</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-xl-3 col-lg-3 col-md-4 col-6">
-		<div class="card card-product-grid">
-			<a href="#" class="img-wrap"> <img src="images/items/8.jpg"> </a>
-			<figcaption class="info-wrap">
-                <ul class="rating-stars mb-1">
-                	<li style="width:80%" class="stars-active">
-						<img src="images/icons/stars-active.svg" alt="">
-					</li>
-					<li>
-						<img src="images/icons/starts-disable.svg" alt="">
-					</li>
-				</ul>
-				<div>
-					<a href="#" class="text-muted">Clothes</a>
-                	<a href="#" class="title">Great product name is here</a>
-				</div>
-				<div class="price h5 mt-2">$56</div> <!-- price.// -->
-			</figcaption>
-		</div>
-	</div> <!-- col.// -->
-</div> <!-- row.// -->
+    <div class="row">
+
+       {%for cloth in clothes_top_12_price %}
+        <div class="col-xl-3 col-lg-3 col-md-4 col-6">
+            <div class="card card-product-grid">
+                <a href="{{url_for('clothes_inf_page',id_clothes=cloth.id)}}" class="img-wrap"> <img src="static/uploads/{{cloth.image}}" style= " border-radius: 8px;"> </a>
+                <figcaption class="info-wrap">
+                    <ul class="rating-stars mb-1">
+                        <li style="width:80%" class="stars-active">
+                            <img src="static/uploads/{{cloth.image}}"  alt="">
+                        </li>
+                        <li>
+                            <img src="static/uploads/{{cloth.image}}"  alt="">
+                        </li>
+                    </ul>
+                    <div>
+                        <a href="#" class="text-muted">{{cloth.name}}</a>
+                        <a href="#" class="title">{{cloth.description}}</a>
+                    </div>
+                    <div class="price h5 mt-2">${{cloth.price}}</div> <!-- price.// -->
+                </figcaption>
+            </div>
+        </div> <!-- col.// -->
+        {%endfor%}
+    </div> <!-- row.// -->
 </section>
-<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-dark" style="color:white">
-    <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <h1 class="display-4 font-weight-normal">Ahmad Store</h1>
-        <p class="lead font-weight-normal">Start Leasing Cars by clicking the link below</p>
-        <a class="btn btn-primary" href="{{ url_for('store_page') }}">Get Started</a>
-    </div>
-    <div class="product-device box-shadow d-none d-md-block"></div>
-    <div class="product-device product-device-2 box-shadow d-none d-md-block"></div>
-</div>
+
 {%endblock%}

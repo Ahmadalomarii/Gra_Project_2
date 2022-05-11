@@ -24,8 +24,50 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('home.html')
+    clothes_top_8_rating=db.get_clothes_top_8_rating()
+    clothes_top_12_price = db.get_clothes_top_12_price()
+    return render_template('home.html',clothes_top_8_rating=clothes_top_8_rating,clothes_top_12_price=clothes_top_12_price)
 
+clothes_obj=None
+
+@app.route('/clothes_inf_page/<string:id_clothes>')
+def clothes_inf_page(id_clothes):
+    global clothes_obj
+    clothes=db.get_clothes_by_id(id_clothes)
+
+    clothes_obj=clothes
+    # return render_template('clothes_info.html',clothes=clothes,)
+    return redirect(url_for('clothes_inf_page2'))
+
+@app.route('/clothes_inf_page')
+def clothes_inf_page2():
+    global clothes_obj
+    if clothes_obj:
+        clothes=clothes_obj
+        store = db.get_store_name_by_clothes_id(clothes.id)
+        return render_template('clothes_info.html',clothes=clothes,store=store)
+    else:
+        return redirect(url_for('home_page'))
+
+@login_required
+@app.route('/add_clothes_to_wishlist')
+def add_clothes_to_wishlist():
+    global clothes_obj
+    if clothes_obj:
+        id=current_user.id
+        result=db.add_clothes_to_wishlist(clothes_obj.id,id)
+        if result:
+            flash(f'Success! You are Add:{clothes_obj.name} To Your Wishlist', category='Success')
+        else:
+            flash(f'Fail! This Clothes Is In Your Wishlist :(  ', category='danger')
+        return redirect(url_for('whishlist'))####whishlist page
+    else:
+        return redirect(url_for('home_page'))
+
+@app.route('/whishlist', methods=['GET', 'POST'])
+@login_required
+def whishlist():
+    return render_template('whishlist.html')
 
 @app.route('/store', methods=['GET', 'POST'])
 @login_required
