@@ -62,6 +62,25 @@ class DataBaseSQL:
         except Exception as inst:
             print(f"Error in add_clothes {inst}")
 
+    def update_clothes(self,id_old_clothes,new_clothes):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("UPDATE  clothes SET name=%s,size=%s,color=%s,order_count=%s,description=%s,rating=%s,rating_count=%s,"
+                               "price=%s,store_id=%s,type=%s,gender=%s WHERE id=%s"
+
+                               ,(new_clothes.name, new_clothes.size, new_clothes.color, new_clothes.order_count,
+                                new_clothes.description
+                                , new_clothes.rating, new_clothes.rating_count, new_clothes.price,new_clothes.store_id
+                                , new_clothes.type, new_clothes.gender,id_old_clothes))
+
+                mysql.connection.commit()
+                result = cursor.fetchall()
+                cursor.close()
+
+        except Exception as inst:
+            print(f"Error in update_clothes {inst}")
+
     # reserve clothes from spacif store
     def reserve_clothes(self, id_car, name_of_user):
         try:
@@ -123,23 +142,29 @@ class DataBaseSQL:
         except Exception as inst:
             print(f"Error in add_store {inst}")
 
-    def get_clothes_by_id(self, id_of_car):
+    def get_clothes_by_id(self, id_of_clothes):
         try:
             with app.app_context():
                 cursor = mysql.connection.cursor()
-                v1 = cursor.execute("SELECT * FROM `user`")
-                v = mysql.connection.commit()
+                cursor.execute("SELECT * FROM `clothes` WHERE id =%s LIMIT 1", (id_of_clothes,))
+                mysql.connection.commit()
+                i = cursor.fetchone()
+
+                clothes = Clothes(id=i[0], name=i[1], size=i[2], color=i[3], order_count=i[4], description=i[5],
+                                      rating=i[6], rating_count=i[7], price=i[8], image=i[9], store_id=i[10],
+                                      type=i[11], gender=i[12])
+
                 cursor.close()
-                print(f"Done!{v1}! ")
+                return clothes
 
         except Exception as inst:
-            print(f"Error in add_user {inst}")
+            print(f"Error in sql get_all_clothes {inst}")
 
-    def get_all_clothes(self):
+    def get_all_clothes(self,store_id):
         try:
             with app.app_context():
                 cursor = mysql.connection.cursor()
-                cursor.execute("SELECT * FROM `clothes`")
+                cursor.execute("SELECT * FROM `clothes` WHERE store_id =%s",(store_id,))
                 mysql.connection.commit()
                 result = cursor.fetchall()
                 list_of_clothes = []
@@ -204,9 +229,25 @@ class DataBaseSQL:
                     return store
                 return None
 
+
         except Exception as inst:
             print(f"Error in get_store_by_phone {inst}")
             return 1
+
+    def delete_clothes_by_id(self,id_clothes):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("DELETE FROM clothes WHERE id = %s",(id_clothes,))
+                mysql.connection.commit()
+                result = cursor.fetchall()
+
+                cursor.close()
+
+        except Exception as inst:
+            print(f"Error in sql delete_clothes_by_id {inst}")
+
+
 
 
 def get_user_by_name(self, user_name):

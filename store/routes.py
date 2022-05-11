@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, request
 from store.models import User, Store ,Clothes
 
 from store.forms import RegisterForm, RegisterStoreForm, LoginForm, LoginFormStore, AddCarForm, ReserveCar, \
-    UnReserveCar, ReservedCar,ClothesForm
+    UnReserveCar, ReservedCar,ClothesForm,ClothesEditForm
 
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -11,6 +11,8 @@ from store import login_manager
 from store import db
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.datastructures import MultiDict
+
 import uuid
 
 
@@ -199,11 +201,61 @@ def store_new_clothes():
 @app.route('/store_edit_clothes', methods=['GET', 'POST'])
 def store_edit_clothes():
     global store_obj
+    #form = ClothesForm(MultiDict([('name','AHMAd'),('color','RRRRRRRR')]))
     clothes=None
     if store_obj:
-        clothes=db.get_all_clothes()
+        clothes=db.get_all_clothes(store_obj.id)
+        # if form.validate_on_submit():
+        #     print(f"SSSSSSSSSSSSSSSSSSS {form.hidden_tag()}")
+
+    else:
+        return redirect(url_for("login_store"))
 
     return render_template('store_edit_clothes.html', store_info=store_obj,clothes=clothes)
+
+@app.route('/store_popup_edit_clothes/<string:id_clothes>', methods=['GET', 'POST'])
+def store_popup_edit_clothes(id_clothes):
+    id_clothes = int(id_clothes)
+    global store_obj
+    form = ClothesEditForm()
+    clothes=None
+    if store_obj:
+        clothes=db.get_clothes_by_id(id_clothes)
+        all_clothes = db.get_all_clothes(store_obj.id)
+        # form=ClothesEditForm(MultiDict([('name',clothes.name),('size',clothes.size),('color',clothes.color),('description',clothes.description),
+        #                                 ('price',clothes.price),('type',clothes.type),('gender',clothes.gender),('submit',form.validate_on_submit())]))
+
+        if request.method == "POST":
+            if form.validate_on_submit():
+                new_clothes = Clothes(id=88, name=form.name.data, size=form.size.data, color=form.color.data,
+                                      order_count=0, description=form.description.data, rating=1, rating_count=0,
+                                      price=form.price.data, image=None, store_id=store_obj.id, type=form.type.data,
+                                      gender=form.gender.data)
+                db.update_clothes(id_clothes,new_clothes)
+                flash(f'Success! You are Update Clothes {new_clothes.name}', category='Success')
+                return redirect(url_for("store_edit_clothes"))
+
+
+    else:
+        return redirect(url_for("login_store"))
+
+    return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)
+
+@app.route('/store_delete_clothes/<string:id_clothes>', methods=['GET', 'POST'])
+def store_delete_clothes(id_clothes):
+    id_clothes = int(id_clothes)
+    global store_obj
+    if store_obj:
+        clothes=db.get_clothes_by_id(id_clothes)
+        if clothes:
+            db.delete_clothes_by_id(id_clothes)
+            flash(f'Success! You are Delete Clothes {clothes.name}', category='Success')
+            return redirect(url_for("store_edit_clothes"))
+    else:
+        return redirect(url_for("login_store"))
+
+    return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)
+
 
 @app.route('/admin_page', methods=['GET', 'POST'])
 def admin_page():

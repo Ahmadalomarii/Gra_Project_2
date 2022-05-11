@@ -59,6 +59,20 @@ class ClothesForm(FlaskForm):
     GENDER= [('1', "Men's  "), ('2', "Women's"), ('3', 'Children-Male'), ('4', 'Children-Female  ')]
     gender=RadioField(label="Gender", choices=GENDER, validators=[DataRequired()])
     submit = SubmitField(label='Add New Clothes')
+
+class ClothesEditForm(FlaskForm):
+    name = StringField(label="Name : ",validators=[Length(min=2,max=30),DataRequired()])
+    SIZES = [('1', 'XXS'), ('2', 'XS'), ('3', 'S'), ('4', 'M'), ('5', 'L'), ('6', 'XL'), ('7', 'XXL')]
+    size=SelectField(label="Size :", choices=SIZES, validators=[DataRequired()])
+    color=StringField(label="Color : ",validators=[Length(min=2,max=30),DataRequired()])
+    description=StringField(label="Description : ",validators=[Length(min=2,max=100),DataRequired()])
+    price=FloatField(label="Price", validators=[DataRequired()])
+    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('7', 'Womens Drees ')]
+    type=SelectField(label="Type :", choices=TYPES, validators=[DataRequired()])
+    GENDER= [('1', "Men's  "), ('2', "Women's"), ('3', 'Children-Male'), ('4', 'Children-Female  ')]
+    gender=RadioField(label="Gender", choices=GENDER, validators=[DataRequired()])
+    submit = SubmitField(label='Update Clothes')
+
 class ReserveCar(FlaskForm):
     submit = SubmitField(label='Reserve Car')
 
