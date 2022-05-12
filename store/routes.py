@@ -64,10 +64,55 @@ def add_clothes_to_wishlist():
     else:
         return redirect(url_for('home_page'))
 
+def sort_list_gender(clothes):
+  return clothes.gender
 @app.route('/whishlist', methods=['GET', 'POST'])
 @login_required
 def whishlist():
+    # clothes = db.get_all_clothes(11)
+    clothes = db.get_clothes_in_wishlist(current_user.id)
+    if clothes:
+        clothes.sort(key=sort_list_gender)
+        return render_template('whishlist.html',clothes=clothes)
     return render_template('whishlist.html')
+
+@app.route('/store_delete_clothes_from_whishlist/<string:id_clothes>', methods=['GET', 'POST'])
+def store_delete_clothes_from_whishlist(id_clothes):
+    id_clothes = int(id_clothes)
+    clothes=db.get_clothes_by_id(id_clothes)
+    if clothes:
+        id =current_user.id
+        db.delete_clothes_by_id_from_whishlist(id_clothes,id)
+        flash(f'Success! You are Delete Clothes {clothes.name} From Wishlist', category='Success')
+        return redirect(url_for("whishlist"))
+    else:
+        flash("Erorr!Clothes Don't Delete From Wishlist", category='danager')
+        return redirect(url_for("whishlist"))
+    return redirect(url_for("store_edit_clothes"))
+
+@app.route('/map', methods=['GET', 'POST'])
+def map():
+    data = [{
+        "description": "Location A",
+        "location": "G133",
+        "latitude": "32.539019758856654",
+        "longitude": "35.866449519956426"
+    },
+        {
+            "description": "{{name}}",
+            "location": "MB320",
+            "latitude": "51.065453",
+            "longitude": "-114.088841"
+        },
+        {
+            "description": "{{name}}",
+            "location": "MB322",
+            "latitude": "51.065453",
+            "longitude": "-114.088600"
+        }]
+    return render_template('map.html',name="YYYYYYYYYYYYYYYYYYY",data=data)
+
+
 
 @app.route('/store', methods=['GET', 'POST'])
 @login_required
@@ -295,8 +340,8 @@ def store_delete_clothes(id_clothes):
             return redirect(url_for("store_edit_clothes"))
     else:
         return redirect(url_for("login_store"))
-
-    return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)
+    return redirect(url_for("store_edit_clothes"))
+    # return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)#oldddd
 
 
 @app.route('/admin_page', methods=['GET', 'POST'])

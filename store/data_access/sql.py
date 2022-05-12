@@ -157,9 +157,28 @@ class DataBaseSQL:
 
                 cursor.close()
                 return clothes
+        except Exception as inst:
+            print(f"Error in sql get_all_clothes {inst}")
+
+    def get_clothes_in_wishlist(self,id_user):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT id_clothes FROM `wishlist` WHERE id_user =%s", (id_user,))
+                mysql.connection.commit()
+                result = cursor.fetchall()
+                list_of_clothes = []
+                for i in result:
+                    clothes=self.get_clothes_by_id(i)
+                    list_of_clothes.append(clothes)
+                cursor.close()
+
+                return list_of_clothes
 
         except Exception as inst:
             print(f"Error in sql get_all_clothes {inst}")
+
+
 
     def get_all_clothes(self, store_id):
         try:
@@ -331,6 +350,20 @@ class DataBaseSQL:
 
         except Exception as inst:
             print(f"Error in sql delete_clothes_by_id {inst}")
+
+
+    def delete_clothes_by_id_from_whishlist(self, id_clothes,id_user):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("DELETE FROM wishlist WHERE id_clothes = %s AND id_user=%s" , (id_clothes,id_user))
+                mysql.connection.commit()
+                result = cursor.fetchall()
+
+                cursor.close()
+
+        except Exception as inst:
+            print(f"Error in sql delete_clothes_by_id_from_whishlist {inst}")
 
     def get_row_from_wishlist(self, id_clothes, id_user):
         try:
