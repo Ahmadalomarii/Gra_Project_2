@@ -55,8 +55,9 @@ def clothes_inf_page2():
         return redirect(url_for('home_page'))
 
 
-@login_required
+
 @app.route('/add_clothes_to_wishlist')
+@login_required
 def add_clothes_to_wishlist():
     global clothes_obj
     if clothes_obj:
@@ -146,59 +147,6 @@ def map():
     return render_template('map.html', name="YYYYYYYYYYYYYYYYYYY", data=json_data)
 
 
-@app.route('/store', methods=['GET', 'POST'])
-@login_required
-def store_page():
-    reserve_form = ReserveCar()
-    unreserve_form = UnReserveCar()
-    reserved_car = ReservedCar()
-
-    if request.method == "POST":
-        if reserve_form.validate_on_submit():
-            name_of_car = request.form.get('reserve')
-            car_object = db.get_car_by_name(name_of_car=name_of_car)
-
-            if car_object:
-                result_of_reserve = db.reserve_car(car_object.id, current_user.username)
-
-                if result_of_reserve:
-                    flash(f'Success! You are Reserve car:{car_object.name}', category='Success')
-                    return redirect(url_for('store_page'))
-                else:
-                    flash(f'Fail! This Car Is Reserved ', category='danger')
-                    return redirect(url_for('store_page'))
-
-        # if unreserve_form.validate_on_submit():
-        #     name_of_car = request.form.get('unreserve')
-        #     car_object2 = db.get_car_by_name(name_of_car=name_of_car)
-        #     if car_object2:
-        #         result_of_unreserve = db.unreserve_car(car_object2.id)
-        #         if result_of_unreserve:
-        #
-        #             return redirect(url_for('store_page'))
-
-        if reserved_car.validate_on_submit():
-            name_of_car = request.form.get('reserved')
-            car_object3 = db.get_car_by_name(name_of_car=name_of_car)
-            if car_object3:
-                if car_object3.reserve != "" and car_object3.reserve != current_user.username:
-                    flash(f'Fail! This Car Is Reserved ', category='danger')
-                    return redirect(url_for('store_page'))
-
-    cars = db.get_all_car()
-    return render_template('store.html', items=cars, reserve_form=reserve_form, unreserve_form=unreserve_form,
-                           reserved_car=reserved_car)
-
-
-@app.route('/unreserve_car/<string:name_of_car>')
-def unreserve(name_of_car):
-    car_object2 = db.get_car_by_name(name_of_car=name_of_car)
-    if car_object2:
-        result_of_unreserve = db.unreserve_car(car_object2.id)
-        if result_of_unreserve:
-            return redirect(url_for('store_page'))
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
@@ -207,7 +155,7 @@ def register_page():
                               email=form.email_address.data,
                               password=form.password1.data, )
         db.add_user(user_to_create)
-        return redirect(url_for('store_page'))
+        return redirect(url_for('login_page'))
     if form.errors != {}:
         for err_msg in form.errors.values():
             flash(f'There was an error with creating a user: {err_msg}', category='danger')
@@ -251,7 +199,7 @@ def login_page():
         if result_of_login_user:
             login_user(db.get_user_by_email(form.username.data))
             flash(f'Success! You are logged in as :{form.username.data}', category='Success')
-            return redirect(url_for('store_page'))
+            return redirect(url_for('home_page'))
         else:
             flash('Username and password are not match! Please try again', category='danager')
 
@@ -396,23 +344,3 @@ def store_delete_clothes(id_clothes):
     # return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)#oldddd
 
 
-@app.route('/admin_page', methods=['GET', 'POST'])
-def admin_page():
-    form = AddCarForm()
-    if form.validate_on_submit():
-        car_to_create = Car(id=-1
-                            , name=form.name.data,
-                            price=form.price.data,
-                            maker=form.maker.data,
-                            color=form.color.data,
-                            year=form.year.data,
-                            description=form.description.data,
-                            img_url=form.img_url.data)
-        db.add_car(car_to_create)
-        flash(f'Success! You are Add Car {car_to_create.name}', category='Success')
-        return redirect(url_for('admin_page'))
-    if form.errors != {}:
-        for err_msg in form.errors.values():
-            flash(f'There was an error with creating a user: {err_msg}', category='danger')
-
-    return render_template('store_page.html', form=form)
