@@ -38,15 +38,6 @@ class LoginFormStore(FlaskForm):
     submit = SubmitField(label='Sign in')
 
 
-class AddCarForm(FlaskForm):
-    name = StringField(label="Name : ",validators=[Length(min=2,max=30),DataRequired()])
-    price = IntegerField(label="Price :",validators=[DataRequired()])
-    maker = StringField(label="Maker : ",validators=[Length(min=2,max=30),DataRequired()])
-    color = StringField(label="Color : ",validators=[Length(min=2,max=30),DataRequired()])
-    year = IntegerField(label="Year :",validators=[DataRequired()])
-    img_url = StringField(label="Image url : ",validators=[Length(min=2,max=1024),DataRequired()])
-    description = StringField(label="Maker : ",validators=[Length(min=2,max=1024),DataRequired()])
-    submit = SubmitField(label='Add New Car')
 
 class ClothesForm(FlaskForm):
     name = StringField(label="Name : ",validators=[Length(min=2,max=30),DataRequired()])
@@ -75,12 +66,5 @@ class ClothesEditForm(FlaskForm):
     gender=RadioField(label="Gender", choices=GENDER, validators=[DataRequired()])
     submit = SubmitField(label='Update Clothes')
 
-class ReserveCar(FlaskForm):
-    submit = SubmitField(label='Reserve Car')
 
-class UnReserveCar(FlaskForm):
-    submit = SubmitField(label='UnReserve Car')
-
-class ReservedCar(FlaskForm):
-    submit = SubmitField(label='Reserved ')
 

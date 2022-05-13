@@ -1,5 +1,4 @@
 from store.models import User, Store, Clothes
-from store.models.car import Car
 
 from . import mysql, app
 
@@ -233,7 +232,7 @@ class DataBaseSQL:
         try:
             with app.app_context():
                 cursor = mysql.connection.cursor()
-                cursor.execute("SELECT * FROM `clothes` ORDER BY rating LIMIT 9")
+                cursor.execute("SELECT * FROM `clothes` ORDER BY rating LIMIT 8")
                 mysql.connection.commit()
                 result = cursor.fetchall()
                 list_of_clothes = []
