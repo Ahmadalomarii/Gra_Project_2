@@ -297,8 +297,19 @@ def store_base():
 @app.route('/store_overview', methods=['GET', 'POST'])
 def store_overview():
     global store_obj
+
     if store_obj:
-        return render_template('store_overview.html', store_info=store_obj)
+        data = []
+
+        item = {"description": "Store Name : " + store_obj.name,
+                "image": store_obj.image,
+                "location": "Location >> " + store_obj.location,
+                "latitude": store_obj.latitude,
+                "longitude": store_obj.longitude
+                }
+        data.append(item)
+        json_data = json.dumps(data)
+        return render_template('store_overview.html', store_info=store_obj,data=json_data)
     else:
         flash('404-(rou)176', category='danager')
     return redirect(url_for('store_base', store=store_obj))

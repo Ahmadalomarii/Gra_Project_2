@@ -14,125 +14,166 @@ Store page
 <h6>Welcome,{{store_info.name}}</h6>
 {%endblock%}
 {%block contant%}
-<body class="text-center">
+<body class="text-center" style="width:100%;hight:100%;">
 <section class="section-content padding-y">
-<div class="container">
+    <div class="container">
 
-<div class="row">
-	<aside class="col-md-3">
-		<nav class="list-group">
-			<a class="list-group-item active" href="{{ url_for('store_overview')}}"> Account overview </a>
-			<a class="list-group-item" href="{{ url_for('store_new_clothes')}}"> Add New Clothes </a>
-			<a class="list-group-item" href="{{ url_for('store_edit_clothes')}}"> Edit Clothes </a>
+        <div class="row">
+            <aside class="col-md-3">
+                <nav class="list-group">
+                    <a class="list-group-item active" href="{{ url_for('store_overview')}}"> Account overview </a>
+                    <a class="list-group-item" href="{{ url_for('store_new_clothes')}}"> Add New Clothes </a>
+                    <a class="list-group-item" href="{{ url_for('store_edit_clothes')}}"> Edit Clothes </a>
 
-			<a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
-			 <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
-		</nav>
-	</aside> <!-- col.// -->
-	<main class="col-md-9">
+                    <a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
+                    <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
+                </nav>
+            </aside> <!-- col.// -->
+            <main class="col-md-9">
 
-		<article class="card mb-3">
-			<div class="card-body">
+                <article class="card mb-3">
+                    <div class="card-body">
 
-				<figure class="icontext">
-						<div class="icon">
-							<img class="rounded-circle img-sm border" src="static/uploads/{{store_info.image}}">
-						</div>
+                        <figure class="icontext">
+                            <div class="icon">
+                                <img class="rounded-circle img-sm border" src="static/uploads/{{store_info.image}}">
+                            </div>
 
-						<div class="text">
-							<strong> <h3>{{store_info.name}}</h3> </strong> <br>
-							<p class="mb-2"> {{store_info.phone}}  </p>
+                            <div class="text">
+                                <strong><h3>{{store_info.name}}</h3></strong> <br>
+                                <p class="mb-2"> {{store_info.phone}} </p>
 
-						</div>
-				</figure>
-				<hr>
-				<p>
-					<i class="fa fa-map-marker text-muted"></i> &nbsp; My address:
-					 <br>
-					{{store_info.location}}
-<!--					{{store_info.longitude}}-->
-<!--					{{store_info.latitude}}-->
+                            </div>
+                        </figure>
+                        <hr>
+                        <p>
+                            <i class="fa fa-map-marker text-muted"></i> &nbsp; My address:
+                            <br>
+                            {{store_info.location}}
+                            <!--					{{store_info.longitude}}-->
+                            <!--					{{store_info.latitude}}-->
 
-				</p>
-
-
-				<article class="card-group card-stat">
-					<figure class="card bg">
-						<div class="p-3">
-							 <h4 class="title">{{store_info.rating}}</h4>
-							<span>Rating</span>
-						</div>
-					</figure>
-					<figure class="card bg">
-						<div class="p-3">
-							 <h4 class="title">{{store_info.rating_count}}</h4>
-							<span>Rating Count</span>
-						</div>
-					</figure>
-					<figure class="card bg">
-						<div class="p-3">
-							 <h4 class="title">12</h4>
-							<span>Awaiting delivery</span>
-						</div>
-					</figure>
-					<figure class="card bg">
-						<div class="p-3">
-							 <h4 class="title">50</h4>
-							<span>Delivered items</span>
-						</div>
-					</figure>
-				</article>
+                        </p>
 
 
-			</div> <!-- card-body .// -->
-		</article> <!-- card.// -->
+                        <article class="card-group card-stat">
+                            <figure class="card bg">
+                                <div class="p-3">
+                                    <h4 class="title">{{store_info.rating}}</h4>
+                                    <span>Rating</span>
+                                </div>
+                            </figure>
+                            <figure class="card bg">
+                                <div class="p-3">
+                                    <h4 class="title">{{store_info.rating_count}}</h4>
+                                    <span>Rating Count</span>
+                                </div>
+                            </figure>
+                            <figure class="card bg">
+                                <div class="p-3">
+                                    <h4 class="title">12</h4>
+                                    <span>Awaiting delivery</span>
+                                </div>
+                            </figure>
+                            <figure class="card bg">
+                                <div class="p-3">
+                                    <h4 class="title">50</h4>
+                                    <span>Delivered items</span>
+                                </div>
+                            </figure>
+                        </article>
 
-		<article class="card  mb-3">
-			<div class="card-body">
-				<h5 class="card-title mb-4">Recent orders </h5>
 
-				<div class="row">
-				<div class="col-md-6">
-					<figure class="itemside  mb-3">
-						<div class="aside"><img src="images/items/1.jpg" class="border img-sm"></div>
-						<figcaption class="info">
-							<time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-							<p>Great book name goes here </p>
-							<span class="text-success">Order confirmed </span>
-						</figcaption>
-					</figure>
-				</div> <!-- col.// -->
-				<div class="col-md-6">
-					<figure class="itemside  mb-3">
-						<div class="aside"><img src="images/items/2.jpg" class="border img-sm"></div>
-						<figcaption class="info">
-							<time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-							<p>How to be rich</p>
-							<span class="text-success">Departured</span>
-						</figcaption>
-					</figure>
-				</div> <!-- col.// -->
-				<div class="col-md-6">
-					<figure class="itemside mb-3">
-						<div class="aside"><img src="images/items/3.jpg" class="border img-sm"></div>
-						<figcaption class="info">
-							<time class="text-muted"><i class="fa fa-calendar-alt"></i> 12.09.2019</time>
-							<p>Harry Potter book </p>
-							<span class="text-success">Shipped  </span>
-						</figcaption>
-					</figure>
-				</div> <!-- col.// -->
-			</div> <!-- row.// -->
+                    </div> <!-- card-body .// -->
+                </article> <!-- card.// -->
 
-			<a href="#" class="btn btn-outline-primary btn-block"> See all orders <i class="fa fa-chevron-down"></i>  </a>
-			</div> <!-- card-body .// -->
-		</article> <!-- card.// -->
+                <article class="card  mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Location Of Store </h5>
 
-	</main> <!-- col.// -->
-</div>
+                        <div class="row" style="display: flex; justify-content: center; align-items: center; padding-top:5%;padding-bottom:5%;">
+                            <div style="display: flex; justify-content: center; align-items: center; padding-top:5%;padding-bottom:5%;">
+                                <div id="map-canvas" class="olmap" style="width: 700px; height: 400px;">
+                                    <!--        #width=1350px  800px-->
+                                </div>
+                            </div>
+                        </div> <!-- row.// -->
+                        <input type="hidden"  id="data" value="{{ data }}">
 
-</div> <!-- container .//  -->
+                        <a href="#" class="btn btn-outline-primary btn-block"> See all orders <i
+                                class="fa fa-chevron-down"></i> </a>
+                    </div> <!-- card-body .// -->
+                </article> <!-- card.// -->
+
+            </main> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
 </section>
 
 </body>
+<script type="text/javascript">
+var map;
+var latlng;
+var infowindow;
+$(document).ready(function() {
+
+    var data =JSON.parse( document.querySelector('#data').value)
+
+
+    //if backend servie ready
+    // $.ajax({ //library for JS help front-end to talk back-end, without having to reload the page
+    //   url: "HelpMapper-backend.php",
+    //   async: true,
+    //   dataType: 'json', // is a language
+    //   success: function (data) {
+    //     console.log(data);
+    //     ViewCustInGoogleMap(data);
+    //   }
+    // });
+    // console.log(data);
+    ViewCustInGoogleMap(data);
+});
+function ViewCustInGoogleMap(data) {
+    var gm = google.maps; //create instance of google map
+    //add initial map option
+    var mapOptions = {
+        center: new google.maps.LatLng(32.557515022529245, 35.839312872823484), // Coimbatore = (11.0168445, 76.9558321)
+        zoom: 14,
+        //mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    //bine html tag to show the google map and bind mapoptions
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    //create instance of google information windown
+    infowindow = new google.maps.InfoWindow();
+    var marker, i;
+    //var MarkerImg = "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png";
+    //var MarkerImg = "https://cdn-icons-png.flaticon.com/128/7495/7495775.png";
+    //loop through all the locations and point the mark in the google map
+    for (var i = 0; i < data.length; i++) {
+        marker = new gm.Marker({
+            position: new gm.LatLng(data[i]['latitude'], data[i]['longitude']),
+            map: map,
+            //icon: MarkerImg
+        });
+
+        //add info for popup tooltip
+        google.maps.event.addListener(
+            marker,
+            'click',
+            (
+                function(marker, i) {
+                    return function() {
+                        var html = "<img src=static/uploads/"+data[i]['image']+"  width=30px;><br/> <b style='color:red;'><strong>" + data[i]['description'] + "</strong></b> <br/> <p style='color:blue;'><strong>" + data[i]['location']+"</strong></p>";
+                        infowindow.setContent(html);
+                        infowindow.open(map, marker);
+                    };
+                }
+            )(marker, i)
+        );
+    }
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgDWBXUaAtdpQJ8wjRHzQLUFrIaE3RYG0&sensor=true"
+    type="text/javascript"></script>
 {%endblock%}
