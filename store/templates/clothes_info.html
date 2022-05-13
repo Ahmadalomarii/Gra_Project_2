@@ -1,0 +1,106 @@
+{%extends 'base.html'%}
+
+
+{%block title%}
+Home page
+{%endblock%}
+
+{%block name_page%}
+BRJ3LK
+{%endblock%}
+
+{%block contant%}
+<div class="row">
+    <aside class="col-md-6">
+        <div class="card">
+            <article class="gallery-wrap">
+                <div class="img-big-wrap">
+                    <div><a href="#"><img src="static/uploads/{{clothes.image}}"></a></div>
+                </div> <!-- slider-product.// -->
+                <div class="thumbs-wrap">
+                    <a href="#" class="item-thumb"> <img src="static/uploads/{{clothes.image}}"></a>
+                    <a href="#" class="item-thumb"> <img src="static/uploads/{{clothes.image}}"></a>
+                    <a href="#" class="item-thumb"> <img src="static/uploads/{{clothes.image}}"></a>
+                    <a href="#" class="item-thumb"> <img src="static/uploads/{{clothes.image}}"></a>
+                </div> <!-- slider-nav.// -->
+            </article> <!-- gallery-wrap .end// -->
+        </div> <!-- card.// -->
+    </aside>
+    <main class="col-md-6">
+        <article class="product-info-aside">
+
+            <h2 class="title mt-3">{{clothes.name}} </h2>
+
+            <div class="rating-wrap my-3">
+                <ul class="rating-stars">
+
+                    <li style="width:80%" class="stars-active">
+                        {% if clothes.rating %}
+                        {%for n in range(clothes.rating|int) %}
+                        <i class="fa fa-star"></i>
+                        {% endfor %}
+                        {% endif %}
+
+
+                    </li>
+                    <li>
+                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </li>
+                </ul>
+                <small class="label-rating text-muted">132 reviews</small>
+                <small class="label-rating text-success"> <i class="fa fa-clipboard-check"></i> {{clothes.order_count}}
+                    orders </small>
+            </div> <!-- rating-wrap.// -->
+
+            <div class="mb-3">
+                <var class="price h4">JOD {{clothes.price}}.00</var>
+
+            </div> <!-- price-detail-wrap .// -->
+
+            <p>Compact sport shoe for running, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat </p>
+
+
+            <dl class="row">
+                <dt class="col-sm-3">Store Name</dt>
+                <dd class="col-sm-9"><a href="#">{{store.name}}</a></dd>
+
+                <dt class="col-sm-3">Store Location</dt>
+                <dd class="col-sm-9">{{store.location}}</dd>
+
+                <dt class="col-sm-3">Size</dt>
+                <dd class="col-sm-9">{{clothes.size}}</dd>
+
+                <dt class="col-sm-3">Type</dt>
+                <dd class="col-sm-9">{{clothes.type}}</dd>
+
+                <dt class="col-sm-3">Gender</dt>
+                <dd class="col-sm-9">{{clothes.gender}}</dd>
+
+                <dt class="col-sm-3">Color</dt>
+                <dd class="col-sm-9">{{clothes.color}}</dd>
+            </dl>
+            <br><br>
+
+
+            <div class="form-group col-md">
+                <a href="{{ url_for('add_clothes_to_wishlist') }}" class="btn btn-primary">
+                    <i class="fa fa-shopping-cart"></i> <span class="text">Add to Wishlist</span>
+                </a>
+                <a href="#" class="btn btn-light">
+                    <i class="fa fa-envelope"></i> <span class="text">Contact Store</span>
+                </a>
+            </div> <!-- col.// -->
+</div> <!-- row.// -->
+
+</article> <!-- product-info-aside .// -->
+</main> <!-- col.// -->
+</div> <!-- row.// -->
+
+{%endblock%}

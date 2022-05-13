@@ -1,0 +1,116 @@
+{%extends 'base.html'%}
+{%block title%}
+Store page
+{%endblock%}
+
+{%block style%}
+<link href="static/css/store_base.css" rel="stylesheet" type="text/css"/>
+<link href="static/css/new_clothes_form.css" rel="stylesheet" type="text/css"/>
+<link href="static/css/edit_clothes_form.css" rel="stylesheet" type="text/css"/>
+
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<link href="static/css/popub_edit_clothes.css" rel="stylesheet" type="text/css"/>
+
+{%endblock%}
+
+{%block name_page%}
+Store page
+{%endblock%}
+
+{%block name_of_user%}
+ <ul class="navbar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link text-dark">Welcome,{{store_info.name}}</a>
+        </li>
+
+
+{%endblock%}
+{%block contant%}
+<body class="text-center modal-open" style="overflow-y: scroll;">
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="row">
+            <aside class="col-md-3">
+                <nav class="list-group">
+                    <a class="list-group-item " href="{{url_for('store_overview')}}"> Account overview </a>
+                    <a class="list-group-item " href="{{url_for('store_new_clothes')}}"> Add New Clothes </a>
+                    <a class="list-group-item active" id="store_edit_clothes" href="{{url_for('store_edit_clothes')}}"> Edit Clothes </a>
+
+                    <a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
+                    <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
+                </nav>
+            </aside> <!-- col.// -->
+            <main class="col-md-9" style="padding-left: 0px;padding-right: 0px;">
+
+                <div class="container" style="padding-left: 0px;padding-right: 0px;">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <h2>EDIT CLOTHISE</h2>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Size</th>
+                                    <th>Color</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Type</th>
+                                    <th>Gender</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {%for cloth in clothes %}
+                                <tr>
+                                    <td>
+                                        <img class="rounded-circle img-sm border" src="static/uploads/{{cloth.image}}">
+                                    </td>
+                                    <td>{{cloth.id}}</td>
+                                    <td>{{cloth.name}}</td>
+                                    <td>{{cloth.size}}</td>
+                                    <td>{{cloth.color}}</td>
+                                    <td>{{cloth.description}}</td>
+                                    <td>{{cloth.price}}</td>
+                                    <td>{{cloth.type}}</td>
+                                    <td>{{cloth.gender}}</td>
+                                    <td>
+                                        <a href="{{url_for('store_popup_edit_clothes',id_clothes=cloth.id)}}" class="edit"  id="{{cloth.id}}">
+                                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                                        </a>
+
+                                        <a href="{{url_for('store_delete_clothes',id_clothes=cloth.id)}}" class="delete" >
+                                            <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+                                <div class="hint-text">Showing <b>{{clothes|length}}</b> out of <b>{{clothes|length}}</b> Clothes</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+  {%block popup%}
+{%endblock%}
+</body>
+{%endblock%}

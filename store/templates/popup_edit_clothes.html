@@ -1,0 +1,88 @@
+{%extends 'store_edit_clothes.html'%}
+{%block popup%}
+
+<a data-target="#exampleModalCenter" id="myButton" class="delete" data-toggle="modal" hidden>
+    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+</a>
+
+<script type="text/javascript">
+window.onload = function(){
+  document.getElementById('myButton').click();
+  }
+function ClosePopup() {
+  document.getElementById("store_edit_clothes").click();
+}
+
+
+</script>
+
+
+<div class="modal fade " id="exampleModalCenter" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"
+                    style="text-align: center;">EDIT CLOTHES </h5>
+
+            </div>
+            <form method="post" class="form-register" enctype="multipart/form-data">
+                <div class="modal-body">
+                    {{ form.csrf_token }}
+                    {{form.hidden_tag()}}
+                    <br>
+                    {{ form.name.label() }}<br>
+
+                    {{form.name(class="form-control",placeholder="Name Of Clothes") }}
+
+                    <br><br>
+                    {{ form.size.label() }}<br>
+                    {{ form.size(class="form-control",placeholder="Size") }}
+                    <br>
+                    {{ form.color.label() }}<br>
+                    {{ form.color(class="form-control",placeholder="Color") }}
+                    <br>
+                    {{ form.description.label() }}<br>
+                    {{
+                    form.description(class="form-control",placeholder="Description")
+                    }}
+                    <br>
+                    {{ form.price.label() }}<br>
+                    {{ form.price(class="form-control",placeholder="Price") }}
+                    <br><br><br>
+                    <div class="form-control">
+                        {{ form.gender.label() }}<br>
+
+                        <style>  li{padding: 5px; display: inline-flex;display: inline-block;margin:8px 0;}
+                                                                         .form-control{ padding: 5px; margin: 1px 0; width:90%; display: inline-block; }
+
+
+
+
+                        </style>
+                        {{ form.gender(class=" form-check-inline
+                        ",type="radio",style=" padding-left: 35px; ") }}
+                    </div>
+
+                    <br> <br> <br>
+                    {{ form.type.label() }}<br>
+                    {{ form.type(class="form-control",placeholder="Type") }}
+                    <br>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    {{form.submit(class="btn btn-primary",style="width:100%;margin-bottom: 10px;")}}
+
+
+                    <button type="button" class="btn btn-danger form-control" onclick="ClosePopup()"
+                            style="width:98.5%;height:37px;border-radius:2px;">Close
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

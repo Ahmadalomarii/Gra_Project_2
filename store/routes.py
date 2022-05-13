@@ -118,7 +118,7 @@ def map():
     for store in list_of_store:
         item = {"description": "Store Name : " + store.name,
                 "image": store.image,
-                "location": db.get_names_of_clothes_for_one_store_in_whishlist(current_user.id, store.id),
+                "location":"Clothes >> "+ db.get_names_of_clothes_for_one_store_in_whishlist(current_user.id, store.id),
                 "latitude": store.latitude,
                 "longitude": store.longitude
                 }

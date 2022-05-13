@@ -1,0 +1,104 @@
+{%extends 'base.html'%}
+
+
+{%block title%}
+
+{%endblock%}
+
+{%block style%}
+<!--<link href="static/css/store_base.css" rel="stylesheet" type="text/css"/>-->
+<!--<link href="static/css/new_clothes_form.css" rel="stylesheet" type="text/css"/>-->
+<link href="static/css/edit_clothes_form.css" rel="stylesheet" type="text/css"/>
+
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<!--<link href="static/css/popub_edit_clothes.css" rel="stylesheet" type="text/css"/>-->
+
+{%endblock%}
+
+{%block name_page%}
+BRJ3LK
+{%endblock%}
+
+{%block contant%}
+<main class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+
+    <div class="container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title" style="background:none;">
+                    <div class="row">
+
+                    </div>
+
+                    <h4 style="text-align: center; color: #007bff"><strong><em>WHISHLIST</em> </strong></h4>
+
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <thead class="Primary" style="background-color: #007bff; color:white;">
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Gender</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {%for cloth in clothes %}
+                    <tr>
+
+                        <td>
+                            <img class=" img-sm border img-sm " src="static/uploads/{{cloth.image}}">
+                        </td>
+
+                        <td>{{cloth.name}}</td>
+                        <td>{{cloth.type}}</td>
+                        <td>{{cloth.gender}}</td>
+                        <td>{{cloth.price}}</td>
+                        <td>{{cloth.size}}</td>
+                        <td>{{cloth.color}}</td>
+                        <td>{{cloth.description}}</td>
+
+
+                        <td>
+                            <a href="{{url_for('store_popup_edit_clothes',id_clothes=cloth.id)}}" style="color:#007bff;"
+                               id="{{cloth.id}}">
+                                <i class="material-icons" title="Like">favorite</i>
+                            </a>
+
+                            <a href="{{url_for('store_delete_clothes_from_whishlist',id_clothes=cloth.id)}}"
+                               class="delete">
+                                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                                <!--                                            <i class="fa fa-search"></i>-->
+
+
+                            </a>
+
+                        </td>
+                    </tr>
+                    {%endfor%}
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">Showing <b>{{clothes|length}}</b> out of <b>{{clothes|length}}</b> Clothes
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style=" display: flex; justify-content: center; align-items: center; padding-top:3%;padding-bottom:3%; ">
+            <a class="btn btn-primary" href="{{url_for('map')}}" style=" border:none; font-size:20px;"><em>Go To Your Map</em>
+        </a>
+            </div>
+    </div>
+</main>
+{%endblock%}

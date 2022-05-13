@@ -1,0 +1,96 @@
+{%extends 'base.html'%}
+
+
+{%block title%}
+
+{%endblock%}
+
+{%block style%}
+<meta name="viewport" content="initial-scale=1.0">
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">-->
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.js"></script>
+    <meta charset="utf-8">
+{%endblock%}
+
+{%block name_page%}
+BRJ3LK
+{%endblock%}
+
+{%block contant%}
+
+<body style="width:100%;hight:100%;">
+<br>
+ <h4 style="text-align: center; color: #007bff"><strong><em>Your Map</em> </strong></h4>
+<div style="display: flex; justify-content: center; align-items: center; padding-top:5%;padding-bottom:5%;">
+    <div id="map-canvas" class="olmap"style="width: 1350px; height: 600px;">
+<!--        #width=1350px  800px-->
+    </div>
+    </div>
+<input type="hidden"  id="data" value="{{ data }}">
+</body>
+<script type="text/javascript">
+var map;
+var latlng;
+var infowindow;
+$(document).ready(function() {
+
+    var data =JSON.parse( document.querySelector('#data').value)
+
+
+    //if backend servie ready
+    // $.ajax({ //library for JS help front-end to talk back-end, without having to reload the page
+    //   url: "HelpMapper-backend.php",
+    //   async: true,
+    //   dataType: 'json', // is a language
+    //   success: function (data) {
+    //     console.log(data);
+    //     ViewCustInGoogleMap(data);
+    //   }
+    // });
+    // console.log(data);
+    ViewCustInGoogleMap(data);
+});
+function ViewCustInGoogleMap(data) {
+    var gm = google.maps; //create instance of google map
+    //add initial map option
+    var mapOptions = {
+        center: new google.maps.LatLng(32.557515022529245, 35.839312872823484), // Coimbatore = (11.0168445, 76.9558321)
+        zoom: 14,
+        //mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    //bine html tag to show the google map and bind mapoptions
+    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    //create instance of google information windown
+    infowindow = new google.maps.InfoWindow();
+    var marker, i;
+    //var MarkerImg = "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png";
+    //var MarkerImg = "https://cdn-icons-png.flaticon.com/128/7495/7495775.png";
+    //loop through all the locations and point the mark in the google map
+    for (var i = 0; i < data.length; i++) {
+        marker = new gm.Marker({
+            position: new gm.LatLng(data[i]['latitude'], data[i]['longitude']),
+            map: map,
+            //icon: MarkerImg
+        });
+
+        //add info for popup tooltip
+        google.maps.event.addListener(
+            marker,
+            'click',
+            (
+                function(marker, i) {
+                    return function() {
+                        var html = "<img src=static/uploads/"+data[i]['image']+"  width=30px;><br/> <b style='color:red;'><strong>" + data[i]['description'] + "</strong></b> <br/> <p style='color:blue;'><strong>" + data[i]['location']+"</strong></p>";
+                        infowindow.setContent(html);
+                        infowindow.open(map, marker);
+                    };
+                }
+            )(marker, i)
+        );
+    }
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgDWBXUaAtdpQJ8wjRHzQLUFrIaE3RYG0&sensor=true"
+    type="text/javascript"></script>
+
+{%endblock%}
