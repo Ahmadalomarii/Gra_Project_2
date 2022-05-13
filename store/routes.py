@@ -60,6 +60,7 @@ def clothes_inf_page2():
 @login_required
 def add_clothes_to_wishlist():
     global clothes_obj
+
     if clothes_obj:
         id = current_user.id
         result = db.add_clothes_to_wishlist(clothes_obj.id, id)
