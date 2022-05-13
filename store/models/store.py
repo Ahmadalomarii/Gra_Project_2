@@ -8,22 +8,21 @@ class Store:
     image=None
     location=None
     password=None
+    longitude=None
+    latitude=None
 
 
-    def __init__(self,id,name,phone,rating,rating_count,image,location,password):
+    def __init__(self,id,name,phone,rating,rating_count,image,location,password,longitude,latitude):
         self.id = id
         self.name = name
         self.phone = phone
         self.rating = rating
         self.rating_count = rating_count
-
         self.image =image
-
-
         self.location=self.set_location(location)
-
-
         self.password = password
+        self.longitude = longitude
+        self.latitude=latitude
 
     def set_location(self, location):
         try:

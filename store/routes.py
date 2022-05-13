@@ -1,9 +1,11 @@
+import json
+
 from store import app
 from flask import render_template, redirect, url_for, flash, request
-from store.models import User, Store ,Clothes
+from store.models import User, Store, Clothes
 
 from store.forms import RegisterForm, RegisterStoreForm, LoginForm, LoginFormStore, AddCarForm, ReserveCar, \
-    UnReserveCar, ReservedCar,ClothesForm,ClothesEditForm
+    UnReserveCar, ReservedCar, ClothesForm, ClothesEditForm
 
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -24,48 +26,56 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/home')
 def home_page():
-    clothes_top_8_rating=db.get_clothes_top_8_rating()
+    clothes_top_8_rating = db.get_clothes_top_8_rating()
     clothes_top_12_price = db.get_clothes_top_12_price()
-    return render_template('home.html',clothes_top_8_rating=clothes_top_8_rating,clothes_top_12_price=clothes_top_12_price)
+    return render_template('home.html', clothes_top_8_rating=clothes_top_8_rating,
+                           clothes_top_12_price=clothes_top_12_price)
 
-clothes_obj=None
+
+clothes_obj = None
+
 
 @app.route('/clothes_inf_page/<string:id_clothes>')
 def clothes_inf_page(id_clothes):
     global clothes_obj
-    clothes=db.get_clothes_by_id(id_clothes)
+    clothes = db.get_clothes_by_id(id_clothes)
 
-    clothes_obj=clothes
+    clothes_obj = clothes
     # return render_template('clothes_info.html',clothes=clothes,)
     return redirect(url_for('clothes_inf_page2'))
+
 
 @app.route('/clothes_inf_page')
 def clothes_inf_page2():
     global clothes_obj
     if clothes_obj:
-        clothes=clothes_obj
+        clothes = clothes_obj
         store = db.get_store_name_by_clothes_id(clothes.id)
-        return render_template('clothes_info.html',clothes=clothes,store=store)
+        return render_template('clothes_info.html', clothes=clothes, store=store)
     else:
         return redirect(url_for('home_page'))
+
 
 @login_required
 @app.route('/add_clothes_to_wishlist')
 def add_clothes_to_wishlist():
     global clothes_obj
     if clothes_obj:
-        id=current_user.id
-        result=db.add_clothes_to_wishlist(clothes_obj.id,id)
+        id = current_user.id
+        result = db.add_clothes_to_wishlist(clothes_obj.id, id)
         if result:
             flash(f'Success! You are Add:{clothes_obj.name} To Your Wishlist', category='Success')
         else:
             flash(f'Fail! This Clothes Is In Your Wishlist :(  ', category='danger')
-        return redirect(url_for('whishlist'))####whishlist page
+        return redirect(url_for('whishlist'))  ####whishlist page
     else:
         return redirect(url_for('home_page'))
 
+
 def sort_list_gender(clothes):
-  return clothes.gender
+    return clothes.gender
+
+
 @app.route('/whishlist', methods=['GET', 'POST'])
 @login_required
 def whishlist():
@@ -73,16 +83,17 @@ def whishlist():
     clothes = db.get_clothes_in_wishlist(current_user.id)
     if clothes:
         clothes.sort(key=sort_list_gender)
-        return render_template('whishlist.html',clothes=clothes)
+        return render_template('whishlist.html', clothes=clothes)
     return render_template('whishlist.html')
+
 
 @app.route('/store_delete_clothes_from_whishlist/<string:id_clothes>', methods=['GET', 'POST'])
 def store_delete_clothes_from_whishlist(id_clothes):
     id_clothes = int(id_clothes)
-    clothes=db.get_clothes_by_id(id_clothes)
+    clothes = db.get_clothes_by_id(id_clothes)
     if clothes:
-        id =current_user.id
-        db.delete_clothes_by_id_from_whishlist(id_clothes,id)
+        id = current_user.id
+        db.delete_clothes_by_id_from_whishlist(id_clothes, id)
         flash(f'Success! You are Delete Clothes {clothes.name} From Wishlist', category='Success')
         return redirect(url_for("whishlist"))
     else:
@@ -90,28 +101,50 @@ def store_delete_clothes_from_whishlist(id_clothes):
         return redirect(url_for("whishlist"))
     return redirect(url_for("store_edit_clothes"))
 
+
 @app.route('/map', methods=['GET', 'POST'])
 def map():
-    data = [{
-        "description": "Location A",
-        "location": "G133",
-        "latitude": "32.539019758856654",
-        "longitude": "35.866449519956426"
-    },
-        {
-            "description": "{{name}}",
-            "location": "MB320",
-            "latitude": "51.065453",
-            "longitude": "-114.088841"
-        },
-        {
-            "description": "{{name}}",
-            "location": "MB322",
-            "latitude": "51.065453",
-            "longitude": "-114.088600"
-        }]
-    return render_template('map.html',name="YYYYYYYYYYYYYYYYYYY",data=data)
+    # get ids of stores from wish list
+    clothes = db.get_clothes_in_wishlist(current_user.id)
+    if clothes:
+        list_of_id = []
+        for i in clothes:
+            list_of_id.append(i.store_id)
+        set_of_id = set(list_of_id)
+        list_of_id = list(set_of_id)
+    list_of_store = db.get_stores_from_list_of_id(list_of_id)
+    # names_of_clothes=db.get_names_of_clothes_for_one_store_in_whishlist(current_user.id,store_id)
+    data = []
+    for store in list_of_store:
+        item = {"description": "Store Name : " + store.name,
+                "image": store.image,
+                "location": db.get_names_of_clothes_for_one_store_in_whishlist(current_user.id, store.id),
+                "latitude": store.latitude,
+                "longitude": store.longitude
+                }
+        data.append(item)
 
+    # data = [{
+    #     "description": "Location A",
+    #     "location": "G133",
+    #     "latitude": "32.539019758856654",
+    #     "longitude": "35.866449519956426"
+    # },
+    #     {
+    #         "description": "{{name}}",
+    #         "location": "MB320",
+    #         "latitude": "51.065453",
+    #         "longitude": "-114.088841"
+    #     },
+    #     {
+    #         "description": "{{name}}",
+    #         "location": "MB322",
+    #         "latitude": "51.065453",
+    #         "longitude": "-114.088600"
+    #     }]
+
+    json_data = json.dumps(data)
+    return render_template('map.html', name="YYYYYYYYYYYYYYYYYYY", data=json_data)
 
 
 @app.route('/store', methods=['GET', 'POST'])
@@ -190,15 +223,17 @@ def register_store_page():
     if request.method == "POST":
         if form.validate_on_submit():
             # print(f"%$%$%$%$%$%${form.image.data.filename}()(){type(form.image.data)}")
-            filename = secure_filename(str(uuid.uuid1())+form.image.data.filename)
+            filename = secure_filename(str(uuid.uuid1()) + form.image.data.filename)
             form.image.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             store_to_create = Store(id=88, name=form.name.data,
-                                phone=form.phone.data,
-                                rating=1,
-                                rating_count=0,
-                                location=form.location.data,
-                                password=form.password1.data,
-                                image=filename)
+                                    phone=form.phone.data,
+                                    rating=1,
+                                    rating_count=0,
+                                    location=form.location.data,
+                                    password=form.password1.data,
+                                    image=filename,
+                                    longitude=form.longitude.data,
+                                    latitude=form.latitude.data)
             db.add_store(store_to_create)
         return redirect(url_for('login_store'))
         if form.errors != {}:
@@ -230,7 +265,10 @@ def logout_page():
     flash("You have been logged out!", category='info')
     return redirect(url_for("home_page"))
 
-store_obj=None
+
+store_obj = None
+
+
 @app.route('/store_login', methods=['GET', 'POST'])
 def login_store():
     form = LoginFormStore()
@@ -239,12 +277,13 @@ def login_store():
         if result_of_login_store:
             flash(f'Success! You are logged in as :{result_of_login_store.name}', category='Success')
             global store_obj
-            store_obj=result_of_login_store
+            store_obj = result_of_login_store
             return redirect(url_for("store_base"))
         else:
             flash('phone and password are not match! Please try again', category='danager')
 
     return render_template('store_login.html', form=form)
+
 
 @app.route('/store_base', methods=['GET', 'POST'])
 def store_base():
@@ -254,11 +293,12 @@ def store_base():
     else:
         return redirect(url_for("login_store"))
 
+
 @app.route('/store_overview', methods=['GET', 'POST'])
 def store_overview():
     global store_obj
     if store_obj:
-       return render_template('store_overview.html',store_info=store_obj)
+        return render_template('store_overview.html', store_info=store_obj)
     else:
         flash('404-(rou)176', category='danager')
     return redirect(url_for('store_base', store=store_obj))
@@ -268,14 +308,14 @@ def store_overview():
 def store_new_clothes():
     global store_obj
     if store_obj:
-        form=ClothesForm()
+        form = ClothesForm()
         if request.method == "POST":
             if form.validate_on_submit():
                 filename = secure_filename(str(uuid.uuid1()) + form.image.data.filename)
                 form.image.data.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                new_clothes = Clothes(id=88,name=form.name.data,size=form.size.data,color=form.color.data,
-                                      order_count=0,description=form.description.data,rating=1,rating_count=0,
-                                      price=form.price.data,image=filename,store_id=store_obj.id,type=form.type.data,
+                new_clothes = Clothes(id=88, name=form.name.data, size=form.size.data, color=form.color.data,
+                                      order_count=0, description=form.description.data, rating=1, rating_count=0,
+                                      price=form.price.data, image=filename, store_id=store_obj.id, type=form.type.data,
                                       gender=form.gender.data)
                 db.add_clothes(new_clothes)
                 flash(f'Success! You are Add Clothes {new_clothes.name}', category='Success')
@@ -285,29 +325,31 @@ def store_new_clothes():
 
     return render_template('store_new_clothes.html', store_info=store_obj, form=form)
 
+
 @app.route('/store_edit_clothes', methods=['GET', 'POST'])
 def store_edit_clothes():
     global store_obj
-    #form = ClothesForm(MultiDict([('name','AHMAd'),('color','RRRRRRRR')]))
-    clothes=None
+    # form = ClothesForm(MultiDict([('name','AHMAd'),('color','RRRRRRRR')]))
+    clothes = None
     if store_obj:
-        clothes=db.get_all_clothes(store_obj.id)
+        clothes = db.get_all_clothes(store_obj.id)
         # if form.validate_on_submit():
         #     print(f"SSSSSSSSSSSSSSSSSSS {form.hidden_tag()}")
 
     else:
         return redirect(url_for("login_store"))
 
-    return render_template('store_edit_clothes.html', store_info=store_obj,clothes=clothes)
+    return render_template('store_edit_clothes.html', store_info=store_obj, clothes=clothes)
+
 
 @app.route('/store_popup_edit_clothes/<string:id_clothes>', methods=['GET', 'POST'])
 def store_popup_edit_clothes(id_clothes):
     id_clothes = int(id_clothes)
     global store_obj
     form = ClothesEditForm()
-    clothes=None
+    clothes = None
     if store_obj:
-        clothes=db.get_clothes_by_id(id_clothes)
+        clothes = db.get_clothes_by_id(id_clothes)
         all_clothes = db.get_all_clothes(store_obj.id)
         # form=ClothesEditForm(MultiDict([('name',clothes.name),('size',clothes.size),('color',clothes.color),('description',clothes.description),
         #                                 ('price',clothes.price),('type',clothes.type),('gender',clothes.gender),('submit',form.validate_on_submit())]))
@@ -318,7 +360,7 @@ def store_popup_edit_clothes(id_clothes):
                                       order_count=0, description=form.description.data, rating=1, rating_count=0,
                                       price=form.price.data, image=None, store_id=store_obj.id, type=form.type.data,
                                       gender=form.gender.data)
-                db.update_clothes(id_clothes,new_clothes)
+                db.update_clothes(id_clothes, new_clothes)
                 flash(f'Success! You are Update Clothes {new_clothes.name}', category='Success')
                 return redirect(url_for("store_edit_clothes"))
 
@@ -326,14 +368,15 @@ def store_popup_edit_clothes(id_clothes):
     else:
         return redirect(url_for("login_store"))
 
-    return render_template('popup_edit_clothes.html', store_info=store_obj,clothes=all_clothes,form=form)
+    return render_template('popup_edit_clothes.html', store_info=store_obj, clothes=all_clothes, form=form)
+
 
 @app.route('/store_delete_clothes/<string:id_clothes>', methods=['GET', 'POST'])
 def store_delete_clothes(id_clothes):
     id_clothes = int(id_clothes)
     global store_obj
     if store_obj:
-        clothes=db.get_clothes_by_id(id_clothes)
+        clothes = db.get_clothes_by_id(id_clothes)
         if clothes:
             db.delete_clothes_by_id(id_clothes)
             flash(f'Success! You are Delete Clothes {clothes.name}', category='Success')

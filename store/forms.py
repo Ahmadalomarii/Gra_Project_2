@@ -22,6 +22,8 @@ class RegisterStoreForm(FlaskForm):
     location = SelectField(u'Location', choices=CITIES)
     password1 = PasswordField(label='password:', validators=[Length(min=6),DataRequired()])
     password2 = PasswordField(label='Confirm password:',validators=[EqualTo('password1'),DataRequired()])
+    longitude = StringField(label='Longitude :', validators=[Length(min=2,max=50),DataRequired()])
+    latitude = StringField(label='Latitude :', validators=[Length(min=2,max=50),DataRequired()])
 
     submit = SubmitField(label='Create Account ')
 

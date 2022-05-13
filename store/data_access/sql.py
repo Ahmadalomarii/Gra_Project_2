@@ -35,12 +35,12 @@ class DataBaseSQL:
                     if result:
                         store = Store(id=result[0][0], name=result[0][1], phone=result[0][2], rating=result[0][3]
                                       , rating_count=result[0][4], image=result[0][5], location=result[0][6],
-                                      password=result[0][7])
+                                      password=result[0][7],latitude=result[0][8],longitude=result[0][9])
                         return store
 
                     return False
         except Exception as inst:
-            print(f"Error in add_car {inst}")
+            print(f"Error in log_in {inst}")
 
     # add clothes to store
     def add_clothes(self, new_clothes):
@@ -133,9 +133,9 @@ class DataBaseSQL:
             with app.app_context():
                 cursor = mysql.connection.cursor()
                 cursor.execute(
-                    "INSERT INTO store(name,phone,rating,rating_count,image,location,password) VALUES(%s,%s,%s,%s,%s,%s,%s)",
+                    "INSERT INTO store(name,phone,rating,rating_count,image,location,password,latitude,longitude) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                     (store.name, store.phone, store.rating, store.rating_count, store.image, store.location,
-                     store.password))
+                     store.password,store.latitude,store.longitude))
                 mysql.connection.commit()
                 result = cursor.fetchall()
                 cursor.close()
@@ -178,7 +178,35 @@ class DataBaseSQL:
         except Exception as inst:
             print(f"Error in sql get_all_clothes {inst}")
 
+    def get_stores_from_list_of_id(self,list_of_id):
+        try:
+            list_of_stores=[]
+            for i in list_of_id:
+                store=self.get_store_by_id(i)
+                list_of_stores.append(store)
 
+            return list_of_stores
+
+        except Exception as inst:
+            print(f"Error in sql get_stores_from_list_of_id {inst}")
+
+    def get_names_of_clothes_for_one_store_in_whishlist(self,user_id,store_id):
+        try:
+            name_of_clothes=""
+            j=1;
+            clothes_in_wishlist=self.get_clothes_in_wishlist(user_id)
+            if clothes_in_wishlist:
+                for i in clothes_in_wishlist:
+                    if i.store_id==store_id:
+                        name_of_clothes=name_of_clothes+str(j)+")"+'"'+i.name+'"  '+"  "
+                        # name_of_clothes=str(j)+")"+name_of_clothes+i.name
+                        j = j + 1
+
+            return name_of_clothes
+
+
+        except Exception as inst:
+            print(f"Error in sql get_names_of_clothes_for_one_store_in_whishlist {inst}")
 
     def get_all_clothes(self, store_id):
         try:
@@ -287,7 +315,7 @@ class DataBaseSQL:
                 if result:
                     store = Store(id=result[0][0], name=result[0][1], phone=result[0][2], rating=result[0][3]
                                   , rating_count=result[0][4], image=result[0][5], location=result[0][6],
-                                  password=result[0][7])
+                                  password=result[0][7],latitude=result[0][8],longitude=result[0][9])
                     return store
                 return None
 
@@ -307,13 +335,13 @@ class DataBaseSQL:
                 if result:
                     store = Store(id=result[0][0], name=result[0][1], phone=result[0][2], rating=result[0][3]
                                   , rating_count=result[0][4], image=result[0][5], location=result[0][6],
-                                  password=result[0][7])
+                                  password=result[0][7],latitude=result[0][8],longitude=result[0][9])
                     return store
                 return None
 
 
         except Exception as inst:
-            print(f"Error in get_store_by_phone {inst}")
+            print(f"Error in get_store_by_id {inst}")
             return 1
 
     def get_store_name_by_clothes_id(self, clothes_id):
