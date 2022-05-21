@@ -157,7 +157,7 @@ class DataBaseSQL:
                 cursor.close()
                 return clothes
         except Exception as inst:
-            print(f"Error in sql get_all_clothes {inst}")
+            print(f"Error in sql get_clothes_by_id {inst}")
 
     def get_clothes_in_wishlist(self,id_user):
         try:
@@ -175,7 +175,7 @@ class DataBaseSQL:
                 return list_of_clothes
 
         except Exception as inst:
-            print(f"Error in sql get_all_clothes {inst}")
+            print(f"Error in sql get_clothes_in_wishlist {inst}")
 
     def get_stores_from_list_of_id(self,list_of_id):
         try:
