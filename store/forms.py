@@ -47,7 +47,7 @@ class ClothesForm(FlaskForm):
     description=StringField(label="Description : ",validators=[Length(min=2,max=100),DataRequired()])
     price=FloatField(label="Price", validators=[DataRequired()])
     image = FileField("image", validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png']),DataRequired()])
-    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('7', 'Womens Drees ')]
+    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('8', 'Womens Drees ')]
     type=SelectField(label="Type :", choices=TYPES, validators=[DataRequired()])
     GENDER= [('1', "Men's  "), ('2', "Women's"), ('3', 'Children-Male'), ('4', 'Children-Female  ')]
     gender=RadioField(label="Gender", choices=GENDER, validators=[DataRequired()])
@@ -60,7 +60,7 @@ class ClothesEditForm(FlaskForm):
     color=StringField(label="Color : ",validators=[Length(min=2,max=30),DataRequired()])
     description=StringField(label="Description : ",validators=[Length(min=2,max=100),DataRequired()])
     price=FloatField(label="Price", validators=[DataRequired()])
-    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('7', 'Womens Drees ')]
+    TYPES = [('1', 'Hat'), ('2', 'Jacket'), ('3', 'Pants'), ('4', 'Shirt'), ('5', 'Shose'), ('6', 'Sweater'), ('7', 'T-Shirt'), ('8', 'Womens Drees ')]
     type=SelectField(label="Type :", choices=TYPES, validators=[DataRequired()])
     GENDER= [('1', "Men's  "), ('2', "Women's"), ('3', 'Children-Male'), ('4', 'Children-Female  ')]
     gender=RadioField(label="Gender", choices=GENDER, validators=[DataRequired()])
