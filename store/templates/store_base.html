@@ -19,34 +19,35 @@ Store page
 {%block contant%}
 <body class="text-center">
 <section class="section-content padding-y">
-<div class="container">
+    <div class="container">
 
-<div class="row">
-	<aside class="col-md-3">
-		<nav class="list-group">
-			<a class="list-group-item " href="{{ url_for('store_overview')}}"> Account overview </a>
+        <div class="row">
+            <aside class="col-md-3">
+                <nav class="list-group">
+                    <a class="list-group-item " href="{{ url_for('store_overview')}}"> Account overview </a>
 
 
-			<a class="list-group-item" href="{{ url_for('store_new_clothes')}}"> Add New Clothes </a>
-			<a class="list-group-item" href="{{ url_for('store_edit_clothes')}}"> Edit Clothes </a>
+                    <a class="list-group-item" href="{{ url_for('store_new_clothes')}}"> Add New Clothes </a>
+                    <a class="list-group-item" href="{{ url_for('store_edit_clothes')}}"> Edit Clothes </a>
 
-			<a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
-			 <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
-		</nav>
-	</aside> <!-- col.// -->
+                    <a class="list-group-item" href="page-profile-setting.html">Reserved Clothes </a>
+                    <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
+                </nav>
+            </aside> <!-- col.// -->
 
-<video  width="70%" height="60%" controls loop  id="vid">
-  <source src="static/video/one.mp4" type="video/mp4">
-</video>
-	<script>
+            <video width="70%" height="60%" controls loop id="vid">
+                <source src="static/video/one.mp4" type="video/mp4">
+            </video>
+            <script>
     document.getElementById('vid').play();
-</script>
+
+            </script>
 
 
-	</main> <!-- col.// -->
-</div>
+            </main> <!-- col.// -->
+        </div>
 
-</div> <!-- container .//  -->
+    </div> <!-- container .//  -->
 </section>
 
 </body>
