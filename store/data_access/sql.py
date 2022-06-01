@@ -427,3 +427,50 @@ class DataBaseSQL:
 
         except Exception as inst:
             print(f"Error in add_clothes_to_wishlist {inst}")
+
+    def get_reserved_clothes_from_wishlist_to_store(self, store_id):
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute("SELECT id_clothes FROM `wishlist`")
+            mysql.connection.commit()
+            result = cursor.fetchall()
+            list_of_clothes = []
+            for i in result:
+                if self.get_store_name_by_clothes_id(i).id==store_id:
+                    clothes = self.get_clothes_by_id(i)
+                    list_of_clothes.append(clothes)
+            cursor.close()
+
+            return list_of_clothes
+
+
+        except Exception as inst:
+            print(f"Error in get_reserved_clothes_from_wishlist_to_store {inst}")
+            return 1
+
+    def get_user_in_wishlist(self, id_clothes):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT id_user FROM `wishlist` WHERE id_clothes =%s", (id_clothes,))
+                mysql.connection.commit()
+                result = cursor.fetchone()
+                user = self.get_user_by_id(result)
+                cursor.close()
+
+                return user
+
+        except Exception as inst:
+            print(f"Error in sql get_user_in_wishlist {inst}")
+
+    def get_list_of_user_in_wishlist(self, list_of_clothes):
+        try:
+            list_of_user = []
+            for i in list_of_clothes:
+                user=self.get_user_in_wishlist(i.id)
+                list_of_user.append(user)
+            return list_of_user
+
+
+        except Exception as inst:
+            print(f"Error in sql get_list_of_user_in_wishlist {inst}")

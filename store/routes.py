@@ -100,7 +100,21 @@ def store_delete_clothes_from_whishlist(id_clothes):
     else:
         flash("Erorr!Clothes Don't Delete From Wishlist", category='danager')
         return redirect(url_for("whishlist"))
-    return redirect(url_for("store_edit_clothes"))
+    return redirect(url_for("whishlist"))
+
+@app.route('/store_delete_clothes_from_whishlist_for_store/<string:id_clothes>/<string:id_user>', methods=['GET', 'POST'])
+def store_delete_clothes_from_whishlist_for_store(id_clothes,id_user):
+    id_clothes = int(id_clothes)
+    id_user=int(id_user)
+    clothes = db.get_clothes_by_id(id_clothes)
+    if clothes:
+        db.delete_clothes_by_id_from_whishlist(id_clothes, id_user)
+        flash(f'Success! You are Delete Clothes {clothes.name} From Wishlist', category='Success')
+        return redirect(url_for("store_reserved_clothes"))
+    else:
+        flash("Erorr!Clothes Don't Delete From Wishlist", category='danager')
+        return redirect(url_for("whishlist"))
+    return redirect(url_for("store_reserved_clothes"))
 
 
 @app.route('/map', methods=['GET', 'POST'])
@@ -246,6 +260,7 @@ def store_base():
 def store_overview():
     global store_obj
     if store_obj:
+        num_of_clothes_in_wishlist = len(db.get_reserved_clothes_from_wishlist_to_store(store_obj.id))
         data = []
 
         item = {"description": "Store Name : " + store_obj.name,
@@ -256,11 +271,41 @@ def store_overview():
                 }
         data.append(item)
         json_data = json.dumps(data)
-        return render_template('store_overview.html', store_info=store_obj,data=json_data)
+        return render_template('store_overview.html', store_info=store_obj,data=json_data,num_of_clothes_in_wishlist=num_of_clothes_in_wishlist)
     else:
         flash('404-(rou)176', category='danager')
     return redirect(url_for('store_base', store=store_obj))
 
+
+@app.route('/store_information/<string:store_id>', methods=['GET', 'POST'])
+def store_information(store_id):
+    global store_obj
+    store_id = int(store_id)
+    store_obj=db.get_store_by_id(store_id)
+    if store_obj:
+        return redirect(url_for('store_information2'))
+
+    return redirect(url_for('clothes_inf_page2'))
+
+@app.route('/store_information2', methods=['GET', 'POST'])
+def store_information2():
+    global store_obj
+    if store_obj:
+        num_of_clothes_in_wishlist = len(db.get_reserved_clothes_from_wishlist_to_store(store_obj.id))
+        data = []
+
+        item = {"description": "Store Name : " + store_obj.name,
+                "image": store_obj.image,
+                "location": "Location >> " + store_obj.location,
+                "latitude": store_obj.latitude,
+                "longitude": store_obj.longitude
+                }
+        data.append(item)
+        json_data = json.dumps(data)
+        return render_template('store_information.html', store_info=store_obj,data=json_data,num_of_clothes_in_wishlist=num_of_clothes_in_wishlist)
+    else:
+        flash('404-(rou)176', category='danager')
+    return redirect(url_for('clothes_inf_page2'))
 
 @app.route('/store_new_clothes', methods=['GET', 'POST'])
 def store_new_clothes():
@@ -299,6 +344,18 @@ def store_edit_clothes():
 
     return render_template('store_edit_clothes.html', store_info=store_obj, clothes=clothes)
 
+@app.route('/store_reserved_clothes', methods=['GET', 'POST'])
+def store_reserved_clothes():
+    global store_obj
+    clothes = None
+    if store_obj:
+        clothes = db.get_reserved_clothes_from_wishlist_to_store(store_obj.id)
+        users=db.get_list_of_user_in_wishlist(clothes)
+
+    else:
+        return redirect(url_for("login_store"))
+
+    return render_template('store_reserved_clothes.html', store_info=store_obj, clothes_users=zip(clothes,users))
 
 @app.route('/store_popup_edit_clothes/<string:id_clothes>', methods=['GET', 'POST'])
 def store_popup_edit_clothes(id_clothes):

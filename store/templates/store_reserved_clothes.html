@@ -11,10 +11,7 @@ Store page
 <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">-->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-<link href="static/css/popub_edit_clothes.css" rel="stylesheet" type="text/css"/>
+
 
 {%endblock%}
 
@@ -41,9 +38,9 @@ Store page
                 <nav class="list-group">
                     <a class="list-group-item " href="{{url_for('store_overview')}}"> Account overview </a>
                     <a class="list-group-item " href="{{url_for('store_new_clothes')}}"> Add New Clothes </a>
-                    <a class="list-group-item active" id="store_edit_clothes" href="{{url_for('store_edit_clothes')}}"> Edit Clothes </a>
+                    <a class="list-group-item " id="store_edit_clothes" href="{{url_for('store_edit_clothes')}}"> Edit Clothes </a>
 
-                    <a class="list-group-item" href="{{ url_for('store_reserved_clothes')}}">Reserved Clothes </a>
+                    <a class="list-group-item active" href="{{ url_for('store_reserved_clothes')}}">Reserved Clothes </a>
                     <a class="list-group-item" href="{{url_for('login_store')}}"> Logout </a>
                 </nav>
             </aside> <!-- col.// -->
@@ -54,7 +51,7 @@ Store page
                         <div class="table-wrapper">
                             <div class="table-title">
                                 <div class="row">
-                                    <h2>EDIT CLOTHISE</h2>
+                                    <h2>RESERVED CLOTHISE</h2>
                                 </div>
                             </div>
                             <table class="table table-striped table-hover">
@@ -62,35 +59,33 @@ Store page
                                 <tr>
                                     <th>Image</th>
                                     <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Size</th>
-                                    <th>Color</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
-                                    <th>Type</th>
-                                    <th>Gender</th>
+                                    <th>Clothes Name </th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+<!--                                    <th>Description</th>-->
+<!--                                    <th>Price</th>-->
+<!--                                    <th>Type</th>-->
+<!--                                    <th>Gender</th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {%for cloth in clothes %}
+                                {%for cloth,user in clothes_users %}
                                 <tr>
                                     <td>
                                         <img class="rounded-circle img-sm border" src="static/uploads/{{cloth.image}}">
                                     </td>
                                     <td>{{cloth.id}}</td>
                                     <td>{{cloth.name}}</td>
-                                    <td>{{cloth.size}}</td>
-                                    <td>{{cloth.color}}</td>
-                                    <td>{{cloth.description}}</td>
-                                    <td>{{cloth.price}}</td>
-                                    <td>{{cloth.type}}</td>
-                                    <td>{{cloth.gender}}</td>
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.email}}</td>
+<!--                                    <td>{{cloth.color}}</td>-->
+<!--                                    <td>{{cloth.description}}</td>-->
+<!--                                    <td>{{cloth.price}}</td>-->
+<!--                                    <td>{{cloth.type}}</td>-->
+<!--                                    <td>{{cloth.gender}}</td>-->
                                     <td>
-                                        <a href="{{url_for('store_popup_edit_clothes',id_clothes=cloth.id)}}" class="edit"  id="{{cloth.id}}">
-                                            <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                        </a>
 
-                                        <a href="{{url_for('store_delete_clothes',id_clothes=cloth.id)}}" class="delete" >
+                                        <a href="{{url_for('store_delete_clothes_from_whishlist_for_store',id_clothes=cloth.id,id_user=user.id)}}" class="delete" >
                                             <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                                         </a>
                                     </td>
@@ -98,9 +93,7 @@ Store page
                                 {%endfor%}
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <div class="hint-text">Showing <b>{{clothes|length}}</b> out of <b>{{clothes|length}}</b> Clothes</div>
-                            </div>
+
                         </div>
                     </div>
 

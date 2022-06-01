@@ -69,7 +69,7 @@ BRJ3LK
 
             <dl class="row">
                 <dt class="col-sm-3">Store Name</dt>
-                <dd class="col-sm-9"><a href="#">{{store.name}}</a></dd>
+                <dd class="col-sm-9"><a href="{{url_for('store_information',store_id=store.id)}}">{{store.name}}</a></dd>
 
                 <dt class="col-sm-3">Store Location</dt>
                 <dd class="col-sm-9">{{store.location}}</dd>

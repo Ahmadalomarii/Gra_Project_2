@@ -26,6 +26,7 @@ class Store:
 
     def set_location(self, location):
         try:
+
             location = int(location)
             if location == 1:
                 return "IRBID"
@@ -37,5 +38,5 @@ class Store:
                 print("error in class Store Line 43 in set_location")
                 return "ERROR"
         except Exception as a:
-            print(f"error in class Store Line 43 in set_location {a}")
+            # print(f"error in class Store Line 43 in set_location {a}")
             return location
