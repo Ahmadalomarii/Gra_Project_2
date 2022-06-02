@@ -26,7 +26,6 @@ class Store:
 
     def set_location(self, location):
         try:
-
             location = int(location)
             if location == 1:
                 return "IRBID"

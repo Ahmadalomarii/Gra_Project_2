@@ -270,6 +270,62 @@ class DataBaseSQL:
         except Exception as inst:
             print(f"Error in sql get_clothes_top_12_price {inst}")
 
+    def get_clothes_by_categores(self,categores,gender):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT * FROM `clothes` WHERE type=%s AND gender=%s ",(categores,gender,))
+                mysql.connection.commit()
+                result = cursor.fetchall()
+                list_of_clothes = []
+                for i in result:
+                    clothes = Clothes(id=i[0], name=i[1], size=i[2], color=i[3], order_count=i[4], description=i[5],
+                                      rating=i[6], rating_count=i[7], price=i[8], image=i[9], store_id=i[10],
+                                      type=i[11], gender=i[12])
+                    list_of_clothes.append(clothes)
+
+                cursor.close()
+
+                return list_of_clothes
+
+        except Exception as inst:
+            print(f"Error in sql get_clothes_by_categores {inst}")
+    def get_one_clothes_by_categores(self,categores,gender):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT * FROM `clothes` WHERE type=%s AND gender=%s LIMIT 1",(categores,gender,))
+                mysql.connection.commit()
+                i = cursor.fetchone()
+                clothes = Clothes(id=i[0], name=i[1], size=i[2], color=i[3], order_count=i[4], description=i[5],
+                                      rating=i[6], rating_count=i[7], price=i[8], image=i[9], store_id=i[10],
+                                      type=i[11], gender=i[12])
+
+
+                cursor.close()
+
+                return clothes
+
+        except Exception as inst:
+            print(f"Error in sql get_one_clothes_by_categores {inst}")
+
+    def get_clothes_13_categores(self):
+        list_of_categore=['Womens Dress','T-Shirt','Sweater','Shose','Pants','jacket','Hat']
+        list_of_gender=["Men's","Women's"]
+        list_of_13_clothes=[]
+        for i in list_of_categore:
+            if i=='Womens Dress':
+                clothes=self.get_one_clothes_by_categores(i,"Women's")
+                list_of_13_clothes.append(clothes)
+            else:
+                for gender in list_of_gender:
+                    clothes = self.get_one_clothes_by_categores(i, gender)
+                    list_of_13_clothes.append(clothes)
+
+        return list_of_13_clothes
+
+
+
     def get_user_by_email(self, email):
         try:
             with app.app_context():
@@ -474,3 +530,26 @@ class DataBaseSQL:
 
         except Exception as inst:
             print(f"Error in sql get_list_of_user_in_wishlist {inst}")
+
+
+    def get_all_stores(self):
+        try:
+            with app.app_context():
+                cursor = mysql.connection.cursor()
+                cursor.execute("SELECT * FROM store")
+                result = cursor.fetchall()
+                mysql.connection.commit()
+                cursor.close()
+                list_of_store=[]
+                for i in range(len(result)):
+                    store = Store(id=result[i][0], name=result[i][1], phone=result[i][2], rating=result[i][3]
+                                  , rating_count=result[i][4], image=result[i][5], location=result[i][6],
+                                  password=result[i][7],latitude=result[i][8],longitude=result[i][9])
+                    list_of_store.append(store)
+                return list_of_store
+            return None
+
+
+        except Exception as inst:
+            print(f"Error in get_all_stores {inst}")
+            return 1

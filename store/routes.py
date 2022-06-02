@@ -29,6 +29,36 @@ def home_page():
     clothes_top_12_price = db.get_clothes_top_12_price()
     return render_template('home.html', clothes_top_8_rating=clothes_top_8_rating,
                            clothes_top_12_price=clothes_top_12_price)
+@app.route('/categores')
+def categores():
+    clothes_13_categores = db.get_clothes_13_categores()
+    return render_template('filter_categores_page.html',clothes_13_categores=clothes_13_categores)
+
+@app.route('/stores')
+def stores():
+    stores = db.get_all_stores()
+    return render_template('filter_stores_page.html',stores=stores)
+
+clothes_with_filter=[]
+@app.route('/clothes_with_store_filter/<string:id_store>')
+def clothes_with_store_filter(id_store):
+    global clothes_with_filter
+    clothes_with_filter=db.get_all_clothes(id_store)
+    return redirect(url_for("clothes_with_filter"))
+
+@app.route('/clothes_with_categores_filter/<string:type>/<string:gender>')
+def clothes_with_categores_filter(type,gender):
+    global clothes_with_filter
+    clothes_with_filter = db.get_clothes_by_categores(type,gender)
+    return redirect(url_for("clothes_with_filter"))
+
+@app.route("/clothes_with_filter")
+def clothes_with_filter():
+    global clothes_with_filter
+    if clothes_with_filter:
+        return render_template("filter_clothes_page.html",clothes_with_filter=clothes_with_filter)
+    else:
+        return redirect("home_page")
 
 
 clothes_obj = None
@@ -159,6 +189,22 @@ def map():
     #     }]
 
     json_data = json.dumps(data)
+    return render_template('map.html', name="YYYYYYYYYYYYYYYYYYY", data=json_data)
+
+@app.route('/map_for_all_store', methods=['GET', 'POST'])
+def map_for_all_store():
+    all_stores=db.get_all_stores()
+    data = []
+    for store in all_stores:
+        item = {"description": "Store Name : " + store.name,
+            "image": store.image,
+            "location": "Location >> " + store.location,
+            "latitude": store.latitude,
+            "longitude": store.longitude
+            }
+        data.append(item)
+    json_data = json.dumps(data)
+
     return render_template('map.html', name="YYYYYYYYYYYYYYYYYYY", data=json_data)
 
 
